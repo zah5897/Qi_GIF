@@ -18,8 +18,12 @@ import android.view.View;
 
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseActivity;
+import com.zhan.qiwen.model.channel.entity.Channel;
 import com.zhan.qiwen.page.adapter.main.MainPagerAdapter;
+import com.zhan.qiwen.page.fragment.ChannelDialogFragment;
 import com.zhan.qiwen.utils.ToolBarUtil;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,6 +114,7 @@ public class MainActivity extends BaseActivity
         return true;
     }
     public void channelManager(View v){
-
+        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(new ArrayList<Channel>(), new ArrayList<Channel>());
+        dialogFragment.show(getSupportFragmentManager(), "CHANNEL");
     }
 }
