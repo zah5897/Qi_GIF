@@ -3,6 +3,7 @@ package com.zhan.qiwen.page.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Paint.Style;
@@ -37,7 +38,7 @@ public class ColorTrackView extends View {
 
     private String mText = "";
     private Paint mPaint;
-    private int mTextSize = sp2px(30);
+    private int mTextSize = sp2px(20);
 
     private int mTextOriginColor = 0xffc8c8ce;
     private int mTextChangeColor = 0xffff0000;
@@ -63,7 +64,7 @@ public class ColorTrackView extends View {
         mTextSize = ta.getDimensionPixelSize(
                 R.styleable.ColorTrackView_ctvText_size, mTextSize);
         mTextOriginColor = ta.getColor(
-                R.styleable.ColorTrackView_ctvText_origin_color, mTextOriginColor);
+                R.styleable.ColorTrackView_ctvText_origin_color, getResources().getColor(R.color.default_font_color));
         mTextChangeColor = ta.getColor(
                 R.styleable.ColorTrackView_ctvText_change_color, mTextChangeColor);
         mProgress = ta.getFloat(R.styleable.ColorTrackView_ctvProgress, 0);

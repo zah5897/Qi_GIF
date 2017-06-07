@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.zhan.qiwen.model.channel.ChannelManager;
 import com.zhan.qiwen.page.fragment.TopicFragment;
 
 
@@ -18,16 +19,23 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopicFragment.newInstance("");
+        return TopicFragment.newInstance(ChannelManager.get().getMyChannels().get(position));
     }
 
     @Override
     public int getCount() {
-        return 10;
+        return ChannelManager.get().getMyChannels().size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-       return "tab"+position;
+        int size = getCount();
+        if (position < 0) {
+            return ChannelManager.get().getMyChannels().get(0).title;
+        } else if (position >= size) {
+            return ChannelManager.get().getMyChannels().get(size - 1).title;
+        }else{
+            return ChannelManager.get().getMyChannels().get(position).title;
+        }
     }
 }

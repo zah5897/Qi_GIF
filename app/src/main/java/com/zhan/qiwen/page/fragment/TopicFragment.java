@@ -9,13 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zhan.qiwen.model.channel.entity.Channel;
+
 public class TopicFragment extends Fragment {
     public static final String TYPE = "type";
+    public static final String CHANNEL = "channel";
 
-    public static TopicFragment newInstance(String channel) {
+    public static TopicFragment newInstance(Channel channel) {
         TopicFragment topicFragment = new TopicFragment();
         Bundle b = new Bundle();
         b.putInt(TYPE, 1);
+        b.putParcelable(CHANNEL,channel);
         topicFragment.setArguments(b);
         return topicFragment;
     }
