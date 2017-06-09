@@ -60,6 +60,12 @@ public class MainActivity extends BaseActivity
         viewPager.setAdapter(pagerAdapter);
         tabLayout=((ColorTrackTabLayout) findViewById(R.id.tab_layout));
         tabLayout.setupWithViewPager(viewPager);
+        findViewById(R.id.title_bar_left_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override

@@ -15,15 +15,15 @@
         <ImageView
             android:id="@+id/title_bar_left_btn"
             android:layout_width="45dp"
-            android:src="@mipmap/ic_drawer"
+            android:src="@mipmap/ic_menu_home" android:padding="5dp"
             android:background="@drawable/view_default_selecotr"
             android:layout_height="@dimen/title_bar_inner_height" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" android:gravity="center_vertical"
+            android:layout_height="@dimen/title_bar_inner_height"
             android:layout_marginLeft="@dimen/title_bar_txt_margin_left"
             android:text="@string/app_name" android:textSize="@dimen/title_size"
             android:textColor="@color/white" />
