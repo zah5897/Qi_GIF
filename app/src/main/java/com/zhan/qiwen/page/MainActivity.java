@@ -33,7 +33,6 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Toolbar mToolbar;
     PagerAdapter pagerAdapter;
     ViewPager viewPager;
     ColorTrackTabLayout tabLayout;
@@ -41,8 +40,6 @@ public class MainActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        ToolBarUtil.setToolBar(this,mToolbar);
         init();
     }
 //------------------ 下面都是自动生成的--------------------------------------------------------------
@@ -51,7 +48,7 @@ public class MainActivity extends BaseActivity
     {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 

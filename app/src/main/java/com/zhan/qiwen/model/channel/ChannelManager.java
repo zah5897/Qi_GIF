@@ -73,13 +73,13 @@ public class ChannelManager {
     }
 
     private void initDefaultChannel() {
-        String defaults[] = {"推荐", "奇闻趣事", "灵异奇谈", "探索发现", "社会热点", "灵异谜团", "灵异事件", "灵异常识", "鬼话连篇", "民间故事", "神秘地球", "探索宇宙"};
-        for (String tag : defaults) {
-            allChannels.add(new Channel(Channel.TYPE_OTHER_CHANNEL, tag, ""));
+        String defaults[] = {"奇闻趣事", "社会奇闻", "历史趣事","神仙奇谈", "未解之谜", "奇图说事","娱乐八卦","军事天地"};
+        for (int i=0;i<defaults.length;i++) {
+            allChannels.add(new Channel(Channel.TYPE_OTHER_CHANNEL, defaults[i], i+1));
         }
         if(myChannels.size()==0){
            for(int i=0;i<5;i++){
-               myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, defaults[i], ""));
+               myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, defaults[i],i+1));
            }
         }
     }

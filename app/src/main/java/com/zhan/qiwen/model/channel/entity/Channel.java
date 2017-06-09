@@ -15,27 +15,16 @@ public class Channel extends MultiItemEntity implements Parcelable {
     public static final int TYPE_MY_CHANNEL = 3;
     public static final int TYPE_OTHER_CHANNEL = 4;
     public String title;
-    public String titleCode;
+    public int type;
     public String remoteUrl;
     public String localPath;
-
-    public Channel(String title, String titleCode) {
-        this(TYPE_MY_CHANNEL, title, titleCode);
-    }
-
-    public Channel(int type, String title, String titleCode) {
+    public Channel(int itemType, String title,int type) {
         this.title = title;
-        this.titleCode = titleCode;
-        itemType = type;
+        this.itemType = itemType;
+        this.type=type;
     }
 
 
-    protected Channel(Parcel in) {
-        title = in.readString();
-        titleCode = in.readString();
-        remoteUrl = in.readString();
-        localPath = in.readString();
-    }
 
     @Override
     public boolean equals(Object obj) {
@@ -47,17 +36,6 @@ public class Channel extends MultiItemEntity implements Parcelable {
         return this.title.equals(channel.title);
     }
 
-    public static final Creator<Channel> CREATOR = new Creator<Channel>() {
-        @Override
-        public Channel createFromParcel(Parcel in) {
-            return new Channel(in);
-        }
-
-        @Override
-        public Channel[] newArray(int size) {
-            return new Channel[size];
-        }
-    };
 
     @Override
     public int describeContents() {
@@ -66,9 +44,28 @@ public class Channel extends MultiItemEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
-        dest.writeString(titleCode);
-        dest.writeString(remoteUrl);
-        dest.writeString(localPath);
+        dest.writeString(this.title);
+        dest.writeInt(this.type);
+        dest.writeString(this.remoteUrl);
+        dest.writeString(this.localPath);
     }
+
+    protected Channel(Parcel in) {
+        this.title = in.readString();
+        this.type = in.readInt();
+        this.remoteUrl = in.readString();
+        this.localPath = in.readString();
+    }
+
+    public static final Parcelable.Creator<Channel> CREATOR = new Parcelable.Creator<Channel>() {
+        @Override
+        public Channel createFromParcel(Parcel source) {
+            return new Channel(source);
+        }
+
+        @Override
+        public Channel[] newArray(int size) {
+            return new Channel[size];
+        }
+    };
 }

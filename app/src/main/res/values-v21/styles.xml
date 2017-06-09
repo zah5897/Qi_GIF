@@ -4,10 +4,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--Toolbar标题颜色-->
-        <item name="android:textColorPrimary">@color/white</item>
     </style>
 
 </resources>

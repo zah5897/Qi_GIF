@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#38393D</color>
-    <color name="colorPrimaryDark">#62646c</color>
-    <color name="colorAccent">#EB5424</color>
+    <color name="colorAccent">#D43D3D</color>
     <color name="red">#FF0000</color>
     <color name="default_font_color">#62646c</color>
     <color name="transparent">#00000000</color>
     <color name="divider">#ffe8e8e8</color>
     <color name="white">#ffffffff</color>
 
+    <color name="view_default_press_color">#66000000</color>
+
     <color name="colorMenuIcon">#62646c</color>
     <color name="drawer_menu_color">#62646c</color>
+
+    <color name="list_item_press">#216b74ff</color>
+    <color name="windowBackground">#F0F0F0</color>
+
+    <color name="colorTitle">#4d4d4d</color>
+    <color name="colorSubTitle">#999999</color>
 </resources>

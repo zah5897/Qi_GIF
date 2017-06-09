@@ -89,9 +89,9 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
 
 
     private void processLogic() {
-        mDatas.add(new Channel(Channel.TYPE_MY_CHANNEL_TAG, "我的频道", ""));
+        mDatas.add(new Channel(Channel.TYPE_MY_CHANNEL_TAG, "我的频道",-1));
         mDatas.addAll(ChannelManager.get().getMyChannels());
-        mDatas.add(new Channel(Channel.TYPE_OTHER_CHANNEL_TAG, "频道推荐", ""));
+        mDatas.add(new Channel(Channel.TYPE_OTHER_CHANNEL_TAG, "频道推荐",-1));
         mDatas.addAll(ChannelManager.get().getUnSelected());
 
 
