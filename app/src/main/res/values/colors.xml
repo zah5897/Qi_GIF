@@ -4,10 +4,15 @@
     <color name="red">#FF0000</color>
     <color name="default_font_color">#62646c</color>
     <color name="transparent">#00000000</color>
-    <color name="divider">#ffe8e8e8</color>
+    <color name="divider">#999999</color>
     <color name="white">#ffffffff</color>
+    <color name="black">#FF000000</color>
 
     <color name="view_default_press_color">#22000000</color>
+    <color name="ssxinheise5">#26000000</color>
+    <color name="ssxinyejianheise2">#ff252525</color>
+    <color name="ss_menu_text">#ff333333</color>
+
 
     <color name="colorMenuIcon">#62646c</color>
     <color name="drawer_menu_color">#62646c</color>

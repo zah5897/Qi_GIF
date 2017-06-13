@@ -9,6 +9,20 @@
 
     <dimen name="title_bar_txt_margin_left">10dp</dimen>
 
+    <dimen name="splash_banner_margin_bottom">25.0dip</dimen>
+    <dimen name="splash_ad_ignore">36.0dip</dimen>
+    <dimen name="splash_ad_ignore_count_top">3.0dip</dimen>
+    <dimen name="splash_ad_ignore_text_top">18.0dip</dimen>
+
+
+    <dimen name="list_item_title_size">14sp</dimen>
+    <dimen name="list_item_divider_height">1dp</dimen>
+    <dimen name="list_item_sub_title_size">12sp</dimen>
+
+
+
+
+
 
 
 
@@ -16,4 +30,7 @@
     <dimen name="title_bar_height">65dp</dimen>
     <dimen name="status_bar_height">25dp</dimen>
     <dimen name="title_bar_inner_height">40dp</dimen>
+
+
+
 </resources>

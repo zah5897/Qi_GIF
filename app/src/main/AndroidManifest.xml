@@ -3,24 +3,34 @@
     package="com.zhan.qiwen">
 
     <application
+        android:name=".app.QwApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name" android:name=".app.QwApp"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".page.MainActivity"
+            android:name=".page.SplashActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <meta-data android:value="593135384ad15649db0010ef" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="develop" android:name="UMENG_CHANNEL"/>
+        <activity
+            android:name=".page.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="593135384ad15649db0010ef" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="develop" />
     </application>
+
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>

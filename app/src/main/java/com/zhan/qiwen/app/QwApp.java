@@ -12,6 +12,6 @@ public class QwApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ChannelManager.get(getApplicationContext());
+        ChannelManager.get(getApplicationContext()).load();
     }
 }

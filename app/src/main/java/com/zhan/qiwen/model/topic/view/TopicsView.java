@@ -12,6 +12,4 @@ import java.util.List;
 
 public interface TopicsView extends BaseView {
     void showTopics(List<Topic> topicList);
-
-    void showTopTopics(List<Topic> topicList);
 }

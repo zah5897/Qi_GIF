@@ -29,12 +29,15 @@ public class ImageActivity extends BaseActivity {
     @BindView(R.id.image)
     PhotoView image;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void loadViewLayout() {
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
         String url = getIntent().getStringExtra(URL);
         Log.d(TAG, "url: " + url);
 

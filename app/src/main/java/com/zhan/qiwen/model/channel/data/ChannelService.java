@@ -2,27 +2,33 @@ package com.zhan.qiwen.model.channel.data;
 
 
 import com.zhan.qiwen.model.channel.entity.Channel;
+import com.zhan.qiwen.model.topic.entity.FavoriteTopic;
+import com.zhan.qiwen.model.topic.entity.FollowTopic;
+import com.zhan.qiwen.model.topic.entity.Like;
+import com.zhan.qiwen.model.topic.entity.Topic;
+import com.zhan.qiwen.model.topic.entity.TopicDetail;
+import com.zhan.qiwen.model.topic.entity.TopicReply;
+import com.zhan.qiwen.model.topic.entity.UnFavoriteTopic;
+import com.zhan.qiwen.model.topic.entity.UnFollowTopic;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 interface ChannelService {
 
     /**
-     * 获取话题列表
-     *
-     * @param type 默认值 last_actived 范围 ["last_actived", "recent", "no_reply", "popular",
-     * "excellent"]
-     * @param nodeId 如果你需要只看某个节点的，请传此参数
-     * @param offset 默认 0，从第 21 条开始就传 20
-     * @param limit 默认 20 范围 [1..150]
+     * 获取渠道列表
      */
-    @GET("topics.json") Call<List<Channel>> getChannels(@Query("type") String type,
-                                                        @Query("node_id") Integer nodeId, @Query("offset") Integer offset,
-                                                        @Query("limit") Integer limit);
+    @GET("list/{version}")
+    Call<List<Channel>> getChannels(@Path("version") String version);
 
 
 }

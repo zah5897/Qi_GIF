@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.zhan.qiwen.model.channel.ChannelManager;
-import com.zhan.qiwen.page.fragment.TopicFragment;
+import com.zhan.qiwen.page.fragment.SimpleListFragment;
 
 
 /**
@@ -19,7 +19,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopicFragment.newInstance(ChannelManager.get().getMyChannels().get(position));
+        return SimpleListFragment.newInstance(ChannelManager.get().getMyChannels().get(position));
     }
 
     @Override

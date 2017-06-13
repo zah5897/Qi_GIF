@@ -106,20 +106,23 @@ public class WebActivity extends BaseActivity {
     };
     private String mUrl;
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void loadViewLayout() {
         setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
-        super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
         initWebView(webView);
-
         Intent intent = getIntent();
         mUrl = intent.getStringExtra(URL);
         Log.d(TAG, "mUrl: " + mUrl);
-       // toolbar.setTitle(mUrl);
+        // toolbar.setTitle(mUrl);
         webView.loadUrl(mUrl);
     }
+
 
 
     @Override

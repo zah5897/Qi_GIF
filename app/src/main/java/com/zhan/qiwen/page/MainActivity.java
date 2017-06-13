@@ -36,17 +36,13 @@ public class MainActivity extends BaseActivity
     PagerAdapter pagerAdapter;
     ViewPager viewPager;
     ColorTrackTabLayout tabLayout;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        init();
-    }
-//------------------ 下面都是自动生成的--------------------------------------------------------------
+    DrawerLayout drawer;
 
-    private void init()
-    {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    @Override
+    protected void loadViewLayout() {
+        setEnableSwipe(false);
+        setContentView(R.layout.activity_main);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, null, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -54,7 +50,10 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
 
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
         viewPager= (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
@@ -63,11 +62,10 @@ public class MainActivity extends BaseActivity
         findViewById(R.id.title_bar_left_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                drawer.openDrawer(GravityCompat.START);
             }
         });
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -1,12 +1,12 @@
-package com.zhan.qiwen.page.adapter.topic;
+package com.zhan.qiwen.page.adapter.base;
 
-public class Footer {
+public class BaseFooter {
     public static final int STATUS_NORMAL = 1;//正常状态
     public static final int STATUS_LOADING = 2;//正在加载中
     public static final int STATUS_NO_MORE = 3;//没有更多了
     private int status;
 
-    public Footer(int status) {
+    public BaseFooter(int status) {
         this.status = status;
     }
 

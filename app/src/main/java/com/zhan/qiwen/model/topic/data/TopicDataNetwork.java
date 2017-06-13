@@ -60,7 +60,7 @@ public class TopicDataNetwork implements TopicData {
         });
         OkHttpClient client = clientBuilder.build();
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://www.diycode.cc/api/v3/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.ROOT_HTTP_PATH+"/data/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build();
@@ -71,8 +71,9 @@ public class TopicDataNetwork implements TopicData {
         return networkData;
     }
 
-    @Override public void getTopics(String type, Integer nodeId, Integer offset, Integer limit) {
-        Call<List<Topic>> call = service.getTopics(type, nodeId, offset, limit);
+    @Override
+    public void getTopics(int type,  Integer offset, Integer limit) {
+        Call<List<Topic>> call = service.getTopics(type, offset, limit);
         call.enqueue(new Callback<List<Topic>>() {
             @Override public void onResponse(Call<List<Topic>> call,
                 Response<List<Topic>> response) {

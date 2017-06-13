@@ -1,4 +1,4 @@
-package com.zhan.qiwen.page.adapter.topic;
+package com.zhan.qiwen.page.adapter.base;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,26 +14,26 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewProvider;
 
-public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvider.ViewHolder> {
+public class BaseFooterViewProvider extends ItemViewProvider<BaseFooter, BaseFooterViewProvider.ViewHolder> {
 
     @NonNull
     @Override protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
                                                       @NonNull ViewGroup parent) {
-        View root = inflater.inflate(R.layout.item_topic_reply_load_more, parent, false);
+        View root = inflater.inflate(R.layout.item_list_load_more, parent, false);
         return new ViewHolder(root);
     }
 
-    @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
+    @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull BaseFooter footer) {
         switch (footer.getStatus()) {
-            case Footer.STATUS_NORMAL:
+            case BaseFooter.STATUS_NORMAL:
                 holder.tips.setText("上拉加载更多");
                 holder.progressBar.setVisibility(View.GONE);
                 break;
-            case Footer.STATUS_LOADING:
+            case BaseFooter.STATUS_LOADING:
                 holder.tips.setText("加载中");
                 holder.progressBar.setVisibility(View.VISIBLE);
                 break;
-            case Footer.STATUS_NO_MORE:
+            case BaseFooter.STATUS_NO_MORE:
                 holder.tips.setText("没有更多了");
                 holder.progressBar.setVisibility(View.GONE);
                 break;

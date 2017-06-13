@@ -7,11 +7,22 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+
+
+    <style name="Theme.Light" parent="AppTheme.NoActionBar">
+        <item name="main_bg">@color/white</item>
+    </style>
+
+    <style name="Theme.Night" parent="AppTheme.NoActionBar">
+        <item name="main_bg">@color/ss_menu_text</item>
+    </style>
+
+
 
 
     <style name="TabStyle" parent="TextAppearance.Design.Tab">

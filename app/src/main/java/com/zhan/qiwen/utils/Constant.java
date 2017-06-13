@@ -17,6 +17,9 @@ public class Constant {
     public  static String DATA_SELECTED = "dataSelected";
     public  static String DATA_UNSELECTED = "dataUnselected";
     public static final String SHARED_PREFERENCES_NAME = "qiwen";
+
+    public static String ROOT_HTTP_PATH="http://117.143.221.190:8899";
+
     public static class Token {
         public static final String ACCESS_TOKEN = "access_token";
         public static final String TOKEN_TYPE = "token_type";
@@ -29,5 +32,22 @@ public class Constant {
         public static final String LOGIN = "login";
         public static final String AVATAR_URL = "avatar_url";
         public static final String EMAIL = "email";
+    }
+
+    public static class Theme{
+      public static  final  String  SP_THEME = "theme";
+      public static  final   int THEME_LIGHT = 1;
+        public static  final   int THEME_NIGHT = 2;
+    }
+
+    public static  class  API_STATUS{
+        public static  final   int FAILED=-1;
+        public static  final   int OK=0;
+        public static  final   int NO_LOGIN=1;
+//        ERR_FAILED(-1, "操作失败"), ERR_NO_ERR(0, "操作成功"), ERR_NO_LOGIN(1, "当前账号没登录"), ERR_PARAM(2, "参数异常:"), ERR_SYS(3,
+//                                                                                                                          "系统错误"), ERR_USER_EXIST(4, "该用户已存在"), ERR_FILE_UPLOAD(5, "文件上传失败"), ERR_USER_NOT_EXIST(6,
+//                "用户不存在"), ERR_PASSWORD(7, "密码错误"), ERR_FREUENT(8, "操作频繁"), ERR_NO_AGREE(9,
+//                                                                                                "非法请求"), ERR_NOT_EXIST(10, "数据不存在"),ERR_PATH_NOT_EXIST(11, "路径不存在");
+
     }
 }

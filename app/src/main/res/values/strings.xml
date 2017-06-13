@@ -15,4 +15,7 @@
     <string name="pref_key_feedback">pref_key_feedback</string>
     <string name="pref_key_sign_out">pref_key_sign_out</string>
     <string name="file_provider">com.pgyersdk.provider</string>
+
+    <string name="splash_ad_ignore">跳过广告</string>
+    <string name="splash_ad_button_text">点击查看</string>
 </resources>

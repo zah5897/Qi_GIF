@@ -26,14 +26,11 @@ interface TopicService {
     /**
      * 获取话题列表
      *
-     * @param type 默认值 last_actived 范围 ["last_actived", "recent", "no_reply", "popular",
-     * "excellent"]
-     * @param nodeId 如果你需要只看某个节点的，请传此参数
+     * @param type 默认值
      * @param offset 默认 0，从第 21 条开始就传 20
      * @param limit 默认 20 范围 [1..150]
      */
-    @GET("topics.json") Call<List<Topic>> getTopics(@Query("type") String type,
-                                                    @Query("node_id") Integer nodeId, @Query("offset") Integer offset,
+    @GET("list/{type}/") Call<List<Topic>> getTopics(@Path("type") int type,@Query("offset") Integer offset,
                                                     @Query("limit") Integer limit);
 
     /**
