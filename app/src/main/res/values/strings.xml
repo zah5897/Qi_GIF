@@ -18,4 +18,9 @@
 
     <string name="splash_ad_ignore">跳过广告</string>
     <string name="splash_ad_button_text">点击查看</string>
+
+    <string name="page_loading">加载中...</string>
+    <string name="page_empty">暂无数据</string>
+    <string name="page_error">网络异常，请稍后再试！</string>
+    <string name="page_reload_load">重试</string>
 </resources>

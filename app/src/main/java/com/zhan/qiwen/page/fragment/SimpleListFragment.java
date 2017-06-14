@@ -20,6 +20,7 @@ import com.zhan.qiwen.page.adapter.base.BaseFooterViewProvider;
 import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
 import com.zhan.qiwen.page.widget.DividerListItemDecoration;
 import com.zhan.qiwen.page.widget.EmptyRecyclerView;
+import com.zhan.qiwen.page.widget.EmptyView;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     @BindView(R.id.rv)
     EmptyRecyclerView rv;
     @BindView(R.id.empty_view)
-    TextView emptyView;
+    EmptyView emptyView;
     private MultiTypeAdapter adapter;
     private Items items;
     private LinearLayoutManager linearLayoutManager;
@@ -50,7 +51,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
 
     @Override
     protected View loadViewLayout(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_topic, container, false);
+        return inflater.inflate(R.layout.fragment_simple_item, container, false);
     }
 
     @Override
@@ -90,6 +91,12 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
+        emptyView.setBtnListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lazyLoad();
+            }
+        });
     }
 
     @Override
@@ -100,24 +107,26 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
 
     @Override
     public void showItems(List<SimpleItem> simpleItems) {
-        if (simpleItems == null) {
-            return;
+        if (simpleItems!=null) {
+            if (items.size() == 0) {
+                items.add(new BaseFooter(BaseFooter.STATUS_NORMAL));
+            }
+            for (SimpleItem simpleItem : simpleItems) {
+                // 插入 FooterView 前面
+                items.add(items.size() - 1, simpleItem);
+                adapter.notifyItemInserted(adapter.getItemCount() - 1);
+            }
+            offset = items.size() - 1;
+            if (simpleItems.size() < 20) {
+                ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NO_MORE);
+            } else {
+                ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NORMAL);
+            }
+            adapter.notifyItemChanged(adapter.getItemCount());
         }
-        if (items.size() == 0) {
-            items.add(new BaseFooter(BaseFooter.STATUS_NORMAL));
+        if(adapter.getItemCount()>0){
+            emptyView.showEmpty();
         }
-        for (SimpleItem simpleItem : simpleItems) {
-            // 插入 FooterView 前面
-            items.add(items.size() - 1, simpleItem);
-            adapter.notifyItemInserted(adapter.getItemCount() - 1);
-        }
-        offset = items.size() - 1;
-        if (simpleItems.size() < 20) {
-            ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NO_MORE);
-        } else {
-            ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NORMAL);
-        }
-        adapter.notifyItemChanged(adapter.getItemCount());
     }
 
     @Override

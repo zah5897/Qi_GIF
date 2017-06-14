@@ -4,7 +4,7 @@
     <color name="red">#FF0000</color>
     <color name="default_font_color">#62646c</color>
     <color name="transparent">#00000000</color>
-    <color name="divider">#999999</color>
+    <color name="divider">#ffe8e8e8</color>
     <color name="white">#ffffffff</color>
     <color name="black">#FF000000</color>
 
