@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.zhan.qiwen.model.item.entity.SimpleItem;
-import com.zhan.qiwen.model.item.event.SimpleItemEvent;
+import com.zhan.qiwen.model.item.event.SimpleItemListEvent;
 import com.zhan.qiwen.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
@@ -63,17 +63,17 @@ public class SimpleItemDataNetwork implements SimpleItemData {
                 if (response.isSuccessful()) {
                     List<SimpleItem> topicList = response.body();
                     Log.v(TAG, "topicList:" + topicList);
-                    EventBus.getDefault().post(new SimpleItemEvent(topicList));
+                    EventBus.getDefault().post(new SimpleItemListEvent(topicList));
                 } else {
                     Log.e(TAG, "getTopics STATUS: " + response.code());
-                    EventBus.getDefault().post(new SimpleItemEvent(null));
+                    EventBus.getDefault().post(new SimpleItemListEvent(null));
                 }
             }
 
             @Override
             public void onFailure(Call<List<SimpleItem>> call, Throwable t) {
                 Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new SimpleItemEvent(null));
+                EventBus.getDefault().post(new SimpleItemListEvent(null));
             }
         });
     }

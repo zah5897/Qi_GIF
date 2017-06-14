@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,34 +15,47 @@ import android.widget.Toast;
  * Created by Administrator on 2016/8/4 0004.
  */
 public abstract class BaseFragment extends Fragment {
-    protected Activity mContext;
-    protected boolean mIsFirstVisible = true;
+    protected boolean mHasLoadData = false;
+    protected boolean isVisible = false;
     protected View rootView;
 
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return loadViewLayout(inflater, container);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        firstInit();
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mContext = getActivity();
-        rootView = view;
-        initView(view);
-        boolean isVis = isHidden() || getUserVisibleHint();
-        if (isVis && mIsFirstVisible) {
+    public void onStart() {
+        super.onStart();
+        if(!mHasLoadData&&isVisible){
+            mHasLoadData=true;
             lazyLoad();
-            mIsFirstVisible = false;
         }
     }
 
+    protected abstract void firstInit();
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        Log.e("BaseFragment","setUserVisibleHint:isVisibleToUser="+isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
+        isVisible=isVisibleToUser;
     }
+
+    protected  void lazyLoad(){
+
+    }
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if(rootView==null){
+            rootView=loadLayout(inflater,container);
+        }
+        return rootView;
+    }
+    protected abstract  View loadLayout(LayoutInflater inflater, ViewGroup container);
 
     /**
      * 获取控件
@@ -54,85 +68,13 @@ public abstract class BaseFragment extends Fragment {
         return (E) rootView.findViewById(id);
     }
 
-
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            onVisible();
-        } else {
-            onInVisible();
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            onVisible();
-        } else {
-            onInVisible();
-        }
-    }
-
-    /**
-     * 当界面可见时的操作
-     */
-    protected void onVisible() {
-        if (mIsFirstVisible && isResumed()) {
-            lazyLoad();
-            mIsFirstVisible = false;
-        }
-    }
-
-    /**
-     * 数据懒加载
-     */
-    protected void lazyLoad() {
-
-    }
-
-    /**
-     * 当界面不可见时的操作
-     */
-    protected void onInVisible() {
-
-    }
-
-    /**
-     * 初始化界面
-     *
-     * @param view
-     */
-    private void initView(View view) {
-        bindViews(view);
-        processLogic();
-    }
-
-    /**
-     * 加载布局
-     */
-    protected abstract View loadViewLayout(LayoutInflater inflater, ViewGroup container);
-
-    /**
-     * find控件
-     *
-     * @param view
-     */
-    protected abstract void bindViews(View view);
-
-    /**
-     * 处理数据
-     */
-    protected abstract void processLogic();
-
     /**
      * 界面跳转
      *
      * @param tarActivity
      */
     protected void intent2Activity(Class<? extends Activity> tarActivity) {
-        Intent intent = new Intent(mContext, tarActivity);
+        Intent intent = new Intent(getActivity(), tarActivity);
         startActivity(intent);
     }
 

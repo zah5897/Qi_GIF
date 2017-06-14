@@ -1,4 +1,4 @@
-package com.zhan.qiwen.page.adapter.base;
+package com.zhan.qiwen.page.adapter.element;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,38 +8,39 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+
 import com.zhan.qiwen.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewProvider;
 
-public class BaseFooterViewProvider extends ItemViewProvider<BaseFooter, BaseFooterViewProvider.ViewHolder> {
+public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvider.ViewHolder> {
 
-    @NonNull
-    @Override protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
-                                                      @NonNull ViewGroup parent) {
-        View root = inflater.inflate(R.layout.item_list_load_more, parent, false);
+    @NonNull @Override protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
+        @NonNull ViewGroup parent) {
+        View root = inflater.inflate(R.layout.item_topic_reply_load_more, parent, false);
         return new ViewHolder(root);
     }
 
-    @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull BaseFooter footer) {
+    @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
         switch (footer.getStatus()) {
-            case BaseFooter.STATUS_NORMAL:
-                holder.tips.setText("上拉加载更多");
-                holder.progressBar.setVisibility(View.GONE);
-                break;
-            case BaseFooter.STATUS_LOADING:
+            case Footer.STATUS_NORMAL:
+                footer.setStatus(Footer.STATUS_LOADING);
+                needLoadMore();
+            case Footer.STATUS_LOADING:
                 holder.tips.setText("加载中");
                 holder.progressBar.setVisibility(View.VISIBLE);
                 break;
-            case BaseFooter.STATUS_NO_MORE:
+            case Footer.STATUS_NO_MORE:
                 holder.tips.setText("没有更多了");
                 holder.progressBar.setVisibility(View.GONE);
                 break;
         }
+
     }
 
+    public void needLoadMore(){};
     static class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tips) TextView tips;
         @BindView(R.id.progress_bar) ProgressBar progressBar;

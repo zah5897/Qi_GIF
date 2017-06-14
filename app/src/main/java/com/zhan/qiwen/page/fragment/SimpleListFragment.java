@@ -3,10 +3,10 @@ package com.zhan.qiwen.page.fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseMvpFragment;
@@ -15,8 +15,8 @@ import com.zhan.qiwen.model.channel.entity.Channel;
 import com.zhan.qiwen.model.item.entity.SimpleItem;
 import com.zhan.qiwen.model.item.presenter.SimpleItemPresenter;
 import com.zhan.qiwen.model.item.view.SimpleItemView;
-import com.zhan.qiwen.page.adapter.base.BaseFooter;
-import com.zhan.qiwen.page.adapter.base.BaseFooterViewProvider;
+import com.zhan.qiwen.page.adapter.element.Footer;
+import com.zhan.qiwen.page.adapter.element.FooterViewProvider;
 import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
 import com.zhan.qiwen.page.widget.DividerListItemDecoration;
 import com.zhan.qiwen.page.widget.EmptyRecyclerView;
@@ -31,6 +31,7 @@ import me.drakeet.multitype.MultiTypeAdapter;
 
 public class SimpleListFragment extends BaseMvpFragment implements SimpleItemView {
     public static final String TYPE = "type";
+    public static final String TAG = "SimpleListFragment";
     @BindView(R.id.rv)
     EmptyRecyclerView rv;
     @BindView(R.id.empty_view)
@@ -38,7 +39,6 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     private MultiTypeAdapter adapter;
     private Items items;
     private LinearLayoutManager linearLayoutManager;
-    private int offset = 0;
     private int type;
 
     public static SimpleListFragment newInstance(Channel channel) {
@@ -48,28 +48,41 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
         topicFragment.setArguments(b);
         return topicFragment;
     }
-
     @Override
-    protected View loadViewLayout(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.fragment_simple_item, container, false);
+    protected View loadLayout(LayoutInflater inflater, ViewGroup container) {
+        View view=inflater.inflate(R.layout.fragment_simple_item, container, false);
+        ButterKnife.bind(this, view);
+        Log.e("BaseFragment","loadLayout");
+        return view;
     }
-
     @Override
-    protected void bindViews(View view) {
-        ButterKnife.bind(this, rootView);
-        linearLayoutManager = new LinearLayoutManager(getContext());
-        items = new Items();
-        adapter = new MultiTypeAdapter(items);
-        adapter.register(SimpleItem.class, new SimpleItemViewProvider());
-        adapter.register(BaseFooter.class, new BaseFooterViewProvider());
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.e("BaseFragment","onViewCreated");
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
         rv.addItemDecoration(new DividerListItemDecoration(getActivity()));
         rv.setEmptyView(emptyView);
+        setListener();
     }
 
     @Override
-    protected void processLogic() {
+    protected void firstInit() {
+        Log.e("BaseFragment","firstInit");
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        items = new Items();
+        adapter = new MultiTypeAdapter(items);
+        adapter.register(SimpleItem.class, new SimpleItemViewProvider());
+        adapter.register(Footer.class, new FooterViewProvider());
+    }
+
+    @Override
+    protected void lazyLoad() {
+        super.lazyLoad();
+        loadData();
+    }
+
+    protected  void setListener(){
         type = getArguments().getInt(TYPE);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisibleItem;
@@ -79,9 +92,9 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_LOADING);
+                    ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_LOADING);
                     adapter.notifyItemChanged(adapter.getItemCount());
-                    lazyLoad();
+                    loadData();
                 }
             }
 
@@ -94,14 +107,13 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
         emptyView.setBtnListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                lazyLoad();
+                loadData();
             }
         });
     }
 
-    @Override
-    protected void lazyLoad() {
-        super.lazyLoad();
+
+    protected void loadData() {
         ((SimpleItemPresenter) mvpPresenter).getSimpleItems(type, offset, null);
     }
 
@@ -109,7 +121,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     public void showItems(List<SimpleItem> simpleItems) {
         if (simpleItems!=null) {
             if (items.size() == 0) {
-                items.add(new BaseFooter(BaseFooter.STATUS_NORMAL));
+                items.add(new Footer(Footer.STATUS_NORMAL));
             }
             for (SimpleItem simpleItem : simpleItems) {
                 // 插入 FooterView 前面
@@ -118,9 +130,9 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
             }
             offset = items.size() - 1;
             if (simpleItems.size() < 20) {
-                ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NO_MORE);
+                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NO_MORE);
             } else {
-                ((BaseFooter) items.get(items.size() - 1)).setStatus(BaseFooter.STATUS_NORMAL);
+                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NORMAL);
             }
             adapter.notifyItemChanged(adapter.getItemCount());
         }
@@ -131,8 +143,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
 
     @Override
     protected BasePresenter createPresenter() {
+        Log.d(TAG,TAG);
         return new SimpleItemPresenter(this);
     }
-
-
 }

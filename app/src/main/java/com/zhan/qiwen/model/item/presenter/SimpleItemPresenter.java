@@ -1,16 +1,17 @@
 package com.zhan.qiwen.model.item.presenter;
 
-import android.util.Log;
-
 import com.zhan.qiwen.model.base.BaseData;
 import com.zhan.qiwen.model.base.BasePresenter;
 import com.zhan.qiwen.model.item.data.SimpleItemDataNetwork;
-import com.zhan.qiwen.model.item.event.SimpleItemEvent;
+import com.zhan.qiwen.model.item.entity.SimpleItem;
+import com.zhan.qiwen.model.item.event.SimpleItemListEvent;
 import com.zhan.qiwen.model.item.view.SimpleItemView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 public class SimpleItemPresenter extends BasePresenter {
     private BaseData data;
@@ -22,8 +23,8 @@ public class SimpleItemPresenter extends BasePresenter {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void showItems(SimpleItemEvent simpleItemEvent) {
-        simpleItemView.showItems(simpleItemEvent.getTopicList());
+    public void showItems(SimpleItemListEvent event) {
+        simpleItemView.showItems(event.getList());
     }
 
     public void getSimpleItems(int type, Integer offset, Integer limit) {

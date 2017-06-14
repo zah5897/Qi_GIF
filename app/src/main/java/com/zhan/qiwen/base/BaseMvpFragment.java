@@ -1,6 +1,7 @@
 package com.zhan.qiwen.base;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +17,8 @@ import com.zhan.qiwen.model.base.BasePresenter;
  */
 public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragment {
     protected P mvpPresenter;
-
+    protected int offset=0;
+    protected int limit=20;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         if (mvpPresenter == null){mvpPresenter = createPresenter();
@@ -24,14 +26,6 @@ public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragm
         }
         super.onViewCreated(view, savedInstanceState);
     }
-
-
-    @Override
-    protected void lazyLoad() {
-        if (mvpPresenter == null) mvpPresenter = createPresenter();
-        super.lazyLoad();
-    }
-
     protected abstract P createPresenter();
 
 

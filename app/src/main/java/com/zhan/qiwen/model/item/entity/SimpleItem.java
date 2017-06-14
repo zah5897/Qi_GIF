@@ -1,6 +1,8 @@
 package com.zhan.qiwen.model.item.entity;
 
 
+import com.zhan.qiwen.model.base.BaseModel;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by plusend on 2016/11/24.
  */
 
-public class SimpleItem {
+public class SimpleItem extends BaseModel{
     protected String id;
     protected String title;
     protected String qw_abstract;
