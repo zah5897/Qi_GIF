@@ -25,6 +25,9 @@ public class EmptyView extends RelativeLayout {
         super(context, attrs);
         init();
     }
+    public EmptyView(Context context) {
+       this(context,null);
+    }
 
     private void init() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.empty_view, null);

@@ -41,6 +41,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     private LinearLayoutManager linearLayoutManager;
     private int type;
 
+    private  FooterViewProvider footerViewProvider;
     public static SimpleListFragment newInstance(Channel channel) {
         SimpleListFragment topicFragment = new SimpleListFragment();
         Bundle b = new Bundle();
@@ -52,20 +53,13 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     protected View loadLayout(LayoutInflater inflater, ViewGroup container) {
         View view=inflater.inflate(R.layout.fragment_simple_item, container, false);
         ButterKnife.bind(this, view);
-        Log.e("BaseFragment","loadLayout");
-        return view;
-    }
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.e("BaseFragment","onViewCreated");
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
         rv.addItemDecoration(new DividerListItemDecoration(getActivity()));
         rv.setEmptyView(emptyView);
         setListener();
+        return view;
     }
-
     @Override
     protected void firstInit() {
         Log.e("BaseFragment","firstInit");
@@ -73,7 +67,8 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
         items = new Items();
         adapter = new MultiTypeAdapter(items);
         adapter.register(SimpleItem.class, new SimpleItemViewProvider());
-        adapter.register(Footer.class, new FooterViewProvider());
+        footerViewProvider=new FooterViewProvider();
+        adapter.register(Footer.class, footerViewProvider);
     }
 
     @Override
@@ -92,7 +87,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
                 super.onScrollStateChanged(recyclerView, newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE
                         && lastVisibleItem + 1 == adapter.getItemCount()) {
-                    ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_LOADING);
+                    footerViewProvider.refreshFooterStatus(Footer.STATUS_LOAD_MORE);
                     adapter.notifyItemChanged(adapter.getItemCount());
                     loadData();
                 }
@@ -121,7 +116,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     public void showItems(List<SimpleItem> simpleItems) {
         if (simpleItems!=null) {
             if (items.size() == 0) {
-                items.add(new Footer(Footer.STATUS_NORMAL));
+                items.add(new Footer());
             }
             for (SimpleItem simpleItem : simpleItems) {
                 // 插入 FooterView 前面
@@ -129,10 +124,10 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
             }
             offset = items.size() - 1;
-            if (simpleItems.size() < 20) {
-                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NO_MORE);
+            if (simpleItems.size() < limit) {
+                footerViewProvider.refreshFooterStatus(Footer.STATUS_NO_MORE);
             } else {
-                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NORMAL);
+                footerViewProvider.refreshFooterStatus(Footer.STATUS_NORMAL);
             }
             adapter.notifyItemChanged(adapter.getItemCount());
         }

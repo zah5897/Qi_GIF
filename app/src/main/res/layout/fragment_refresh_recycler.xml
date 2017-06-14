@@ -21,10 +21,8 @@
   ~ Weibo:   http://weibo.com/GcsSloop
   -->
 
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -34,10 +32,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+        <com.zhan.qiwen.page.widget.EmptyRecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-</LinearLayout>
+    <com.zhan.qiwen.page.widget.EmptyView android:id="@+id/empty_view"
+        android:layout_width="match_parent" android:gravity="center"
+        android:layout_height="match_parent">
+    </com.zhan.qiwen.page.widget.EmptyView>
+</FrameLayout>

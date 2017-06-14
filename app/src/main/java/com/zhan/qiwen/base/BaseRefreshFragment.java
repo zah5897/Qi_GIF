@@ -1,51 +1,22 @@
-package com.zhan.qiwen.base;/*
- * Copyright 2017 GcsSloop
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- * Last modified 2017-04-09 21:16:47
- *
- * GitHub:  https://github.com/GcsSloop
- * Website: http://www.gcssloop.com
- * Weibo:   http://weibo.com/GcsSloop
- */
-
-
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
+package com.zhan.qiwen.base;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.model.base.BaseModel;
-import com.zhan.qiwen.model.item.entity.SimpleItem;
 import com.zhan.qiwen.page.adapter.element.Footer;
 import com.zhan.qiwen.page.adapter.element.FooterViewProvider;
-import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
-
-import org.greenrobot.eventbus.EventBus;
+import com.zhan.qiwen.page.widget.DividerListItemDecoration;
+import com.zhan.qiwen.page.widget.EmptyRecyclerView;
+import com.zhan.qiwen.page.widget.EmptyView;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -55,82 +26,81 @@ import me.drakeet.multitype.MultiTypeAdapter;
 public abstract class BaseRefreshFragment extends BaseMvpFragment {
 
     @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    EmptyRecyclerView mRecyclerView;
     @BindView(R.id.refresh_layout)
     SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.empty_view)
+    EmptyView emptyView;
     private MultiTypeAdapter adapter;
     private Items items;
     private LinearLayoutManager linearLayoutManager;
-    public static final  int STATE_NORMAL=0;
-    public static final  int STATE_NO_MORE=-1;
-    public static final  int STATE_REFRESH=1;
-    public static final  int STATE_MORE=2;
-    private int loadingState=STATE_NORMAL; //0 为不加在，1为刷新，2为加载更多
+    private FooterViewProvider footerViewProvider;
+
     @Override
     protected View loadLayout(LayoutInflater inflater, ViewGroup container) {
         View view = inflater.inflate(R.layout.fragment_refresh_recycler, container, false);
-        ButterKnife.bind(view);
+        ButterKnife.bind(this,view);
+        initView();
         return view;
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // refreshLayout
-        mRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.refresh_layout);
+    private void initView(){
         mRefreshLayout.setProgressViewOffset(false, -20, 80);
         mRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
         mRefreshLayout.setEnabled(true);
-        // RecyclerView
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addItemDecoration(new DividerListItemDecoration(getActivity()));
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setEmptyView(emptyView);
         // 监听 RefreshLayout 下拉刷新
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_LOADING);
-                if(loadingState!=STATE_NORMAL){
+
+                if(footerViewProvider.canRefresh()){
+                    mRefreshLayout.setRefreshing(true);
+                    offset=0;
+                    footerViewProvider.refreshFooterStatus(Footer.STATUS_REFRESH);
+                    lazyLoad();
+                }else{
                     mRefreshLayout.setRefreshing(false);
-                    return;
                 }
-                loadingState=STATE_REFRESH;
-                offset=0;
-                loadData();
+            }
+        });
+        emptyView.setBtnListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lazyLoad();
             }
         });
     }
 
     @Override
     protected void lazyLoad() {
-        super.lazyLoad();
-        loadingState=STATE_REFRESH;
         loadData();
     }
-
     @Override
     protected void firstInit() {
         linearLayoutManager = new LinearLayoutManager(getContext());
         items = new Items();
         adapter = new MultiTypeAdapter(items);
         registProvider(adapter);
-        adapter.register(Footer.class, new FooterViewProvider(){
+        footerViewProvider=new FooterViewProvider(){
             @Override
             public void needLoadMore() {
-                super.needLoadMore();
-                if(loadingState!=STATE_NORMAL){
-                    return;
+                if(footerViewProvider.canLoadMore()){
+                    footerViewProvider.refreshFooterStatus(Footer.STATUS_LOAD_MORE);
+                    loadData();
                 }
-                loadingState=STATE_MORE;
-                loadData();
             }
-        });
+        };
+        adapter.register(Footer.class, footerViewProvider);
     }
    protected abstract void loadData();
    protected abstract void registProvider(MultiTypeAdapter adapter);
    protected void onLoadData(List<?> datas){
-        if(loadingState==STATE_REFRESH){
+        if(!footerViewProvider.isLoadMore()){
             onRefresh((List<BaseModel>) datas);
         }else{
             onLoadMore((List<BaseModel>) datas);
@@ -138,10 +108,10 @@ public abstract class BaseRefreshFragment extends BaseMvpFragment {
    }
     protected void onRefresh(List<BaseModel> datas) {
         mRefreshLayout.setRefreshing(false);
-        if (datas!=null) {
+        if (datas!=null&&datas.size()>0) {
             items.clear();
             if (items.size() == 0) {
-                items.add(new Footer(Footer.STATUS_NORMAL));
+                items.add(new Footer());
             }
             for (BaseModel model : datas) {
                 // 插入 FooterView 前面
@@ -150,27 +120,27 @@ public abstract class BaseRefreshFragment extends BaseMvpFragment {
             }
             offset = items.size() - 1;
             if (datas.size() < limit) {
-                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NO_MORE);
-                loadingState=STATE_NO_MORE;
+                footerViewProvider.refreshFooterStatus(Footer.STATUS_NO_MORE);
             } else {
-                ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NORMAL);
-                loadingState=STATE_NORMAL;
+                footerViewProvider.refreshFooterStatus(Footer.STATUS_NORMAL);
             }
             adapter.notifyDataSetChanged();
             offset=items.size()-1;
         }else{
             //状态恢复
-            loadingState=STATE_NORMAL;
+            footerViewProvider.refreshFooterStatus(Footer.STATUS_NORMAL);
+        }
+        if(items.size()==0){
+            emptyView.showEmpty();
         }
     }
 
     protected void onLoadMore(List<BaseModel> datas) {
+
         if (datas==null||datas.size() < limit) {
-            ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NO_MORE);
-            loadingState=STATE_NO_MORE;
+            footerViewProvider.refreshFooterStatus(Footer.STATUS_NO_MORE);
         } else {
-            ((Footer) items.get(items.size() - 1)).setStatus(Footer.STATUS_NORMAL);
-            loadingState=STATE_NORMAL;
+            footerViewProvider.refreshFooterStatus(Footer.STATUS_NORMAL);
         }
         for (BaseModel model : datas) {
             // 插入 FooterView 前面

@@ -16,28 +16,52 @@ import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewProvider;
 
 public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvider.ViewHolder> {
-
+     ViewHolder viewHolder;
+     private int status=Footer.STATUS_NORMAL;
     @NonNull @Override protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
         @NonNull ViewGroup parent) {
-        View root = inflater.inflate(R.layout.item_topic_reply_load_more, parent, false);
-        return new ViewHolder(root);
+        View root = inflater.inflate(R.layout.item_load_more, parent, false);
+        viewHolder= new ViewHolder(root);
+        return viewHolder;
     }
 
     @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
-        switch (footer.getStatus()) {
-            case Footer.STATUS_NORMAL:
-                footer.setStatus(Footer.STATUS_LOADING);
-                needLoadMore();
-            case Footer.STATUS_LOADING:
-                holder.tips.setText("加载中");
-                holder.progressBar.setVisibility(View.VISIBLE);
-                break;
-            case Footer.STATUS_NO_MORE:
-                holder.tips.setText("没有更多了");
-                holder.progressBar.setVisibility(View.GONE);
-                break;
+        refreshStatus(viewHolder,status);
+        if(status==Footer.STATUS_NORMAL){
+            needLoadMore();
         }
+    }
 
+
+     public  boolean isLoadMore(){
+         return status==Footer.STATUS_LOAD_MORE;
+     }
+
+    public void refreshFooterStatus(int status){
+        this.status=status;
+         if(viewHolder!=null){
+             refreshStatus(viewHolder,status);
+         }
+    }
+
+    public boolean canRefresh(){
+        return status==Footer.STATUS_NORMAL||status==Footer.STATUS_NO_MORE;
+    }
+    public boolean canLoadMore(){
+        return status==Footer.STATUS_NORMAL;
+    }
+    private void refreshStatus(ViewHolder viewHolder,int status){
+        switch (status) {
+            case Footer.STATUS_NO_MORE:
+                viewHolder.tips.setText("没有更多了");
+                viewHolder.progressBar.setVisibility(View.GONE);
+                break;
+            default:
+                viewHolder.tips.setText("加载中...");
+                viewHolder.progressBar.setVisibility(View.VISIBLE);
+                break;
+
+        }
     }
 
     public void needLoadMore(){};

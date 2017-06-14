@@ -33,7 +33,7 @@ public class SimpleItemViewProvider extends ItemViewProvider<SimpleItem,SimpleIt
         holder.title.setText(simpleItem.getTitle());
         Glide.with(holder.left_img.getContext())
             .load(simpleItem.getSmall_img())
-            .placeholder(R.mipmap.ic_avatar_error)
+            .placeholder(R.mipmap.image_loading)
             .error(R.mipmap.ic_avatar_error)
             .crossFade()
             .into(holder.left_img);
