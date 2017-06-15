@@ -12,9 +12,9 @@ import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseMvpFragment;
 import com.zhan.qiwen.model.base.BasePresenter;
 import com.zhan.qiwen.model.channel.entity.Channel;
-import com.zhan.qiwen.model.item.entity.SimpleItem;
-import com.zhan.qiwen.model.item.presenter.SimpleItemPresenter;
-import com.zhan.qiwen.model.item.view.SimpleItemView;
+import com.zhan.qiwen.model.item.entity.Item;
+import com.zhan.qiwen.model.item.presenter.ItemsPresenter;
+import com.zhan.qiwen.model.item.view.ItemsView;
 import com.zhan.qiwen.page.adapter.element.Footer;
 import com.zhan.qiwen.page.adapter.element.FooterViewProvider;
 import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class SimpleListFragment extends BaseMvpFragment implements SimpleItemView {
+public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
     public static final String TYPE = "type";
     public static final String TAG = "SimpleListFragment";
     @BindView(R.id.rv)
@@ -66,7 +66,7 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
         linearLayoutManager = new LinearLayoutManager(getContext());
         items = new Items();
         adapter = new MultiTypeAdapter(items);
-        adapter.register(SimpleItem.class, new SimpleItemViewProvider());
+        adapter.register(Item.class, new SimpleItemViewProvider());
         footerViewProvider=new FooterViewProvider();
         adapter.register(Footer.class, footerViewProvider);
     }
@@ -109,16 +109,16 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
 
 
     protected void loadData() {
-        ((SimpleItemPresenter) mvpPresenter).getSimpleItems(type, offset, null);
+        ((ItemsPresenter) mvpPresenter).getSimpleItems(type, offset, null);
     }
 
     @Override
-    public void showItems(List<SimpleItem> simpleItems) {
+    public void showItems(List<Item> simpleItems) {
         if (simpleItems!=null) {
             if (items.size() == 0) {
                 items.add(new Footer());
             }
-            for (SimpleItem simpleItem : simpleItems) {
+            for (Item simpleItem : simpleItems) {
                 // 插入 FooterView 前面
                 items.add(items.size() - 1, simpleItem);
                 adapter.notifyItemInserted(adapter.getItemCount() - 1);
@@ -139,6 +139,6 @@ public class SimpleListFragment extends BaseMvpFragment implements SimpleItemVie
     @Override
     protected BasePresenter createPresenter() {
         Log.d(TAG,TAG);
-        return new SimpleItemPresenter(this);
+        return new ItemsPresenter(this);
     }
 }

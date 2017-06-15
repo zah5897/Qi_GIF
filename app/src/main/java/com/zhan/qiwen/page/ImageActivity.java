@@ -1,6 +1,7 @@
 package com.zhan.qiwen.page;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -31,16 +32,17 @@ public class ImageActivity extends BaseActivity {
 
 
     @Override
-    protected void loadViewLayout() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ButterKnife.bind(this);
+        initPage();
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
+
+    protected void initPage() {
         String url = getIntent().getStringExtra(URL);
         Log.d(TAG, "url: " + url);
-
         Glide.with(this)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)

@@ -3,7 +3,7 @@ package com.zhan.qiwen.model.item.data;
 
 import com.zhan.qiwen.model.base.BaseData;
 
-interface SimpleItemData extends BaseData {
+interface ItemData extends BaseData {
 
     /**
      * 获取列表
@@ -12,5 +12,7 @@ interface SimpleItemData extends BaseData {
      * @param offset
      * @param limit
      */
-    void getSimpleItems(int type, Integer offset, Integer limit);
+    void getItems(int type, Integer offset, Integer limit);
+
+    void getDetail(int type, String id);
 }

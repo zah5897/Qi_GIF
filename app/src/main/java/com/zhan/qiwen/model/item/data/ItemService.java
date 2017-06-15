@@ -1,20 +1,16 @@
 package com.zhan.qiwen.model.item.data;
 
 
-import com.zhan.qiwen.model.item.entity.SimpleItem;
+import com.zhan.qiwen.model.item.entity.Item;
 
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
-import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-interface SimpleItemService {
+interface ItemService {
 
     /**
      * 获取话题列表
@@ -24,7 +20,10 @@ interface SimpleItemService {
      * @param limit  默认 20 范围 [1..150]
      */
     @GET("list/{type}/")
-    Call<List<SimpleItem>> getSimpleItems(@Path("type") int type, @Query("offset") Integer offset,
-                                          @Query("limit") Integer limit);
+    Call<List<Item>> getItems(@Path("type") int type, @Query("offset") Integer offset,
+                              @Query("limit") Integer limit);
+
+    @GET("detail/{type}/{_id}/")
+    Call<List<Item>> getDetail(@Path("type") int type, @Path("_id") String _id);
 
 }

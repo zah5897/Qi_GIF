@@ -1,8 +1,12 @@
 package com.zhan.qiwen.model.item.entity;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.zhan.qiwen.model.base.BaseModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,7 +14,7 @@ import java.util.List;
  * Created by plusend on 2016/11/24.
  */
 
-public class SimpleItem extends BaseModel{
+public class Item extends BaseModel implements Parcelable {
     protected String id;
     protected String title;
     protected String qw_abstract;
@@ -84,4 +88,49 @@ public class SimpleItem extends BaseModel{
     public void setNodes(List<Node> nodes) {
         this.nodes = nodes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.qw_abstract);
+        dest.writeString(this.small_img);
+        dest.writeLong(this.create_time != null ? this.create_time.getTime() : -1);
+        dest.writeString(this.detail_url);
+        dest.writeInt(this.channelType);
+        dest.writeList(this.nodes);
+    }
+
+    public Item() {
+    }
+
+    protected Item(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.qw_abstract = in.readString();
+        this.small_img = in.readString();
+        long tmpCreate_time = in.readLong();
+        this.create_time = tmpCreate_time == -1 ? null : new Date(tmpCreate_time);
+        this.detail_url = in.readString();
+        this.channelType = in.readInt();
+        this.nodes = new ArrayList<Node>();
+        in.readList(this.nodes, Node.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel source) {
+            return new Item(source);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }

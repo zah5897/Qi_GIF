@@ -61,6 +61,7 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'me.imid.swipebacklayout.lib:library:1.0.0'
     testCompile 'junit:junit:4.12'
 }
 

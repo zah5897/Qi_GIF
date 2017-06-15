@@ -2,33 +2,30 @@ package com.zhan.qiwen.model.item.presenter;
 
 import com.zhan.qiwen.model.base.BaseData;
 import com.zhan.qiwen.model.base.BasePresenter;
-import com.zhan.qiwen.model.item.data.SimpleItemDataNetwork;
-import com.zhan.qiwen.model.item.entity.SimpleItem;
-import com.zhan.qiwen.model.item.event.SimpleItemListEvent;
-import com.zhan.qiwen.model.item.view.SimpleItemView;
+import com.zhan.qiwen.model.item.data.ItemDataNetwork;
+import com.zhan.qiwen.model.item.event.ItemsEvent;
+import com.zhan.qiwen.model.item.view.ItemsView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
-public class SimpleItemPresenter extends BasePresenter {
+public class ItemsPresenter extends BasePresenter {
     private BaseData data;
-    private SimpleItemView simpleItemView;
+    private ItemsView simpleItemView;
 
-    public SimpleItemPresenter(SimpleItemView simpleItemView) {
-        this.data = SimpleItemDataNetwork.getInstance();
+    public ItemsPresenter(ItemsView simpleItemView) {
+        this.data = ItemDataNetwork.getInstance();
         this.simpleItemView = simpleItemView;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void showItems(SimpleItemListEvent event) {
+    public void showItems(ItemsEvent event) {
         simpleItemView.showItems(event.getList());
     }
 
     public void getSimpleItems(int type, Integer offset, Integer limit) {
-        ((SimpleItemDataNetwork) data).getSimpleItems(type, offset, limit);
+        ((ItemDataNetwork) data).getItems(type, offset, limit);
     }
 
     @Override

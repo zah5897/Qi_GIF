@@ -1,37 +1,20 @@
 package com.zhan.qiwen.page.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.zhan.qiwen.R;
-import com.zhan.qiwen.base.BaseMvpFragment;
 import com.zhan.qiwen.base.BaseRefreshFragment;
-import com.zhan.qiwen.model.base.BaseModel;
 import com.zhan.qiwen.model.base.BasePresenter;
 import com.zhan.qiwen.model.channel.entity.Channel;
-import com.zhan.qiwen.model.item.entity.SimpleItem;
-import com.zhan.qiwen.model.item.presenter.SimpleItemPresenter;
-import com.zhan.qiwen.model.item.view.SimpleItemView;
-import com.zhan.qiwen.page.adapter.element.Footer;
-import com.zhan.qiwen.page.adapter.element.FooterViewProvider;
+import com.zhan.qiwen.model.item.entity.Item;
+import com.zhan.qiwen.model.item.presenter.ItemsPresenter;
+import com.zhan.qiwen.model.item.view.ItemsView;
 import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
-import com.zhan.qiwen.page.widget.DividerListItemDecoration;
-import com.zhan.qiwen.page.widget.EmptyRecyclerView;
-import com.zhan.qiwen.page.widget.EmptyView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
-public class SimpleListRefreshFragment extends BaseRefreshFragment implements SimpleItemView {
+public class SimpleListRefreshFragment extends BaseRefreshFragment implements ItemsView {
     public static final String TYPE = "type";
     private int type;
     public static SimpleListRefreshFragment newInstance(Channel channel) {
@@ -44,21 +27,21 @@ public class SimpleListRefreshFragment extends BaseRefreshFragment implements Si
         return topicFragment;
     }
     protected void loadData() {
-        ((SimpleItemPresenter) mvpPresenter).getSimpleItems(type, offset, limit);
+        ((ItemsPresenter) mvpPresenter).getSimpleItems(type, offset, limit);
     }
 
     @Override
     protected void registProvider(MultiTypeAdapter adapter) {
-        adapter.register(SimpleItem.class, new SimpleItemViewProvider());
+        adapter.register(Item.class, new SimpleItemViewProvider());
     }
 
     @Override
-    public void showItems(List<SimpleItem> simpleItems) {
+    public void showItems(List<Item> simpleItems) {
         onLoadData(simpleItems);
     }
 
     @Override
     protected BasePresenter createPresenter() {
-        return new SimpleItemPresenter(this);
+        return new ItemsPresenter(this);
     }
 }

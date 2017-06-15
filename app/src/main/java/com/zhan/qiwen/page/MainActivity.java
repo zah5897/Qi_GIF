@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -39,8 +40,8 @@ public class MainActivity extends BaseActivity
     DrawerLayout drawer;
 
     @Override
-    protected void loadViewLayout() {
-        setEnableSwipe(false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -50,14 +51,14 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        initPage();
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initPage() {
         pagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
-        viewPager= (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(pagerAdapter);
-        tabLayout=((ColorTrackTabLayout) findViewById(R.id.tab_layout));
+        tabLayout = ((ColorTrackTabLayout) findViewById(R.id.tab_layout));
         tabLayout.setupWithViewPager(viewPager);
         findViewById(R.id.title_bar_left_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,10 +77,12 @@ public class MainActivity extends BaseActivity
             super.onBackPressed();
         }
     }
+
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
@@ -130,7 +134,8 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    public void channelManager(final View v){
+
+    public void channelManager(final View v) {
         ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(new ArrayList<Channel>(), new ArrayList<Channel>());
         dialogFragment.show(getSupportFragmentManager(), "CHANNEL");
         dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {

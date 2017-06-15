@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -52,19 +53,19 @@ public class SplashActivity extends BaseActivity {
     boolean cancel = false;
 
     @Override
-    protected void loadViewLayout() {
-        setEnableSwipe(false);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
         setTimerCount(COUT_DOWN_TIME);
+        initPage();
     }
 
     private void setTimerCount(int seconds) {
         mSkipReal.setText(TextUtils.concat(seconds + "s", getResources().getString(R.string.splash_ad_ignore)));
     }
 
-    @Override
-    protected void processLogic(Bundle savedInstanceState) {
+    protected void initPage() {
 
         handler = new Handler() {
             @Override
@@ -110,7 +111,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void goMain() {
-        cancel=true;
+        cancel = true;
         intent2Activity(MainActivity.class);
         finish();
     }

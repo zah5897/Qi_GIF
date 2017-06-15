@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
+
+    <include android:id="@+id/top_bar"
+        layout="@layout/left_btn_white_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <com.zhan.qiwen.page.widget.EmptyRecyclerView
+        android:id="@+id/rv"
+        android:layout_below="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+    <com.zhan.qiwen.page.widget.EmptyView
+        android:id="@+id/empty_view"
+        android:layout_below="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>
