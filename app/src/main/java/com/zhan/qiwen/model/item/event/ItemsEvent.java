@@ -11,11 +11,18 @@ import java.util.List;
 
 public class ItemsEvent {
     List<Item> list;
-    public ItemsEvent(List<Item> list){
-       this.list=list;
+    int type;
+
+    public ItemsEvent(int type, List<Item> list) {
+        this.list = list;
+        this.type = type;
     }
 
     public List<Item> getList() {
         return list;
+    }
+
+    public int getType() {
+        return type;
     }
 }

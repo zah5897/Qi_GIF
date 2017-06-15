@@ -10,6 +10,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.model.base.BasePresenter;
+import com.zhan.qiwen.utils.ZLog;
 
 
 /**
@@ -17,17 +18,63 @@ import com.zhan.qiwen.model.base.BasePresenter;
  */
 public abstract class BaseMvpFragment<P extends BasePresenter> extends BaseFragment {
     protected P mvpPresenter;
-    protected int offset=0;
-    protected int limit=20;
+    protected int offset = 0;
+    protected int limit = 20;
+
+    protected boolean mHasLoadData = false;
+    protected boolean isVisible = false;
+    protected boolean isCreated = false;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        if (mvpPresenter == null){mvpPresenter = createPresenter();
+        if (mvpPresenter == null) {
+            mvpPresenter = createPresenter();
             mvpPresenter.start();
         }
+        isCreated = true;
+        ZLog.e("onViewCreated");
         super.onViewCreated(view, savedInstanceState);
     }
+
     protected abstract P createPresenter();
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ZLog.e("onStart");
+        if(isVisible&&isCreated&&!mHasLoadData){
+            mHasLoadData=true;
+            ZLog.e("lazyLoad");
+           lazyLoad();
+        }
+    }
+
+    protected void onVisible() {
+        ZLog.e("onVisible");
+        if (isVisible && isCreated && !mHasLoadData) {
+            mHasLoadData = true;
+            ZLog.e("lazyLoad");
+            lazyLoad();
+        }
+    }
+    protected void onDisVisible() {
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        ZLog.e("setUserVisibleHint");
+        isVisible = isVisibleToUser;
+        if (isVisibleToUser) {
+            onVisible();
+        } else {
+            onDisVisible();
+        }
+    }
+
+    protected void lazyLoad() {
+
+    }
 
     @Override
     public void onDestroyView() {

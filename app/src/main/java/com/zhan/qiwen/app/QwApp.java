@@ -13,5 +13,6 @@ public class QwApp extends Application {
     public void onCreate() {
         super.onCreate();
         ChannelManager.get(getApplicationContext()).load();
+        CrashHandler.getInstance().init(getApplicationContext());
     }
 }

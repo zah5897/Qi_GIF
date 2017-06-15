@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.zhan.qiwen.model.item.entity.Item;
+import com.zhan.qiwen.model.item.event.ItemDetailEvent;
 import com.zhan.qiwen.model.item.event.ItemsEvent;
 import com.zhan.qiwen.utils.Constant;
 
@@ -56,49 +57,44 @@ public class ItemDataNetwork implements ItemData {
     @Override
     public void getItems(int type, Integer offset, Integer limit) {
         Call<List<Item>> call = service.getItems(type, offset, limit);
-        call.enqueue(new Callback<List<Item>>() {
+        call.enqueue(new ItemCallback(type) {
             @Override
             public void onResponse(Call<List<Item>> call,
                                    Response<List<Item>> response) {
                 if (response.isSuccessful()) {
                     List<Item> topicList = response.body();
-                    Log.v(TAG, "topicList:" + topicList);
-                    EventBus.getDefault().post(new ItemsEvent(topicList));
+                    EventBus.getDefault().post(new ItemsEvent(getWhat(), topicList));
                 } else {
-                    Log.e(TAG, "getTopics STATUS: " + response.code());
-                    EventBus.getDefault().post(new ItemsEvent(null));
+                    EventBus.getDefault().post(new ItemsEvent(getWhat(), null));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Item>> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new ItemsEvent(null));
+                EventBus.getDefault().post(new ItemsEvent(getWhat(), null));
             }
         });
     }
 
     @Override
     public void getDetail(int type, String id) {
-        Call<List<Item>> call = service.getDetail(type, id);
-        call.enqueue(new Callback<List<Item>>() {
+        Call<Item> call = service.getDetail(type, id);
+        call.enqueue(new Callback<Item>() {
             @Override
-            public void onResponse(Call<List<Item>> call,
-                                   Response<List<Item>> response) {
+            public void onResponse(Call<Item> call,
+                                   Response<Item> response) {
                 if (response.isSuccessful()) {
-                    List<Item> topicList = response.body();
-                    Log.v(TAG, "topicList:" + topicList);
-                    EventBus.getDefault().post(new ItemsEvent(topicList));
+                    Item detail = response.body();
+                    EventBus.getDefault().post(new ItemDetailEvent(detail));
                 } else {
-                    Log.e(TAG, "getTopics STATUS: " + response.code());
-                    EventBus.getDefault().post(new ItemsEvent(null));
+                    EventBus.getDefault().post(new ItemDetailEvent(null));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Item>> call, Throwable t) {
+            public void onFailure(Call<Item> call, Throwable t) {
                 Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new ItemsEvent(null));
+                EventBus.getDefault().post(new ItemDetailEvent(null));
             }
         });
     }

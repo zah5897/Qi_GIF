@@ -109,11 +109,14 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
 
 
     protected void loadData() {
-        ((ItemsPresenter) mvpPresenter).getSimpleItems(type, offset, null);
+        ((ItemsPresenter) mvpPresenter).getItems(type, offset, null);
     }
 
     @Override
-    public void showItems(List<Item> simpleItems) {
+    public void showItems(int type,List<Item> simpleItems) {
+        if(this.type!=type){
+            return;
+        }
         if (simpleItems!=null) {
             if (items.size() == 0) {
                 items.add(new Footer());

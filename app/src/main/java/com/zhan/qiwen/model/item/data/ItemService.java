@@ -24,6 +24,6 @@ interface ItemService {
                               @Query("limit") Integer limit);
 
     @GET("detail/{type}/{_id}/")
-    Call<List<Item>> getDetail(@Path("type") int type, @Path("_id") String _id);
+    Call<Item> getDetail(@Path("type") int type, @Path("_id") String _id);
 
 }

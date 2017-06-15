@@ -21,10 +21,10 @@ public class ItemsPresenter extends BasePresenter {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showItems(ItemsEvent event) {
-        simpleItemView.showItems(event.getList());
+        simpleItemView.showItems(event.getType(),event.getList());
     }
 
-    public void getSimpleItems(int type, Integer offset, Integer limit) {
+    public void getItems(int type, Integer offset, Integer limit) {
         ((ItemDataNetwork) data).getItems(type, offset, limit);
     }
 

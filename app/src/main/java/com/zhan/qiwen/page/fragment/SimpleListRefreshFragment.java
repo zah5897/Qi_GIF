@@ -17,17 +17,23 @@ import me.drakeet.multitype.MultiTypeAdapter;
 public class SimpleListRefreshFragment extends BaseRefreshFragment implements ItemsView {
     public static final String TYPE = "type";
     private int type;
-    public static SimpleListRefreshFragment newInstance(Channel channel) {
 
+    public static SimpleListRefreshFragment newInstance(Channel channel) {
         SimpleListRefreshFragment topicFragment = new SimpleListRefreshFragment();
         Bundle b = new Bundle();
-        topicFragment.type=channel.type;
-        b.putInt(TYPE, topicFragment.type);
+        b.putInt(TYPE, channel.type);
         topicFragment.setArguments(b);
         return topicFragment;
     }
+
+    @Override
+    protected void firstInit() {
+        super.firstInit();
+        type = getArguments().getInt(TYPE);
+    }
+
     protected void loadData() {
-        ((ItemsPresenter) mvpPresenter).getSimpleItems(type, offset, limit);
+        ((ItemsPresenter) mvpPresenter).getItems(type, offset, limit);
     }
 
     @Override
@@ -36,7 +42,10 @@ public class SimpleListRefreshFragment extends BaseRefreshFragment implements It
     }
 
     @Override
-    public void showItems(List<Item> simpleItems) {
+    public void showItems(int type,List<Item> simpleItems) {
+        if(this.type!=type){
+            return;
+        }
         onLoadData(simpleItems);
     }
 
