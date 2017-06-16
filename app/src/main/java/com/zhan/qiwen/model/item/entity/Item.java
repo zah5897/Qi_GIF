@@ -23,7 +23,8 @@ public class Item extends BaseModel implements Parcelable {
     protected String detail_url;
 
     protected int channelType;
-    private List<Node> nodes;
+
+    private String html;
 
     public String getId() {
         return id;
@@ -81,64 +82,28 @@ public class Item extends BaseModel implements Parcelable {
         this.channelType = channelType;
     }
 
-    public List<Node> getNodes() {
-        return nodes;
+    public String getHtml() {
+        return html;
     }
 
-    public void setNodes(List<Node> nodes) {
-        this.nodes = nodes;
-    }
-
-    public void filterNodes(){
-          if(nodes!=null){
-              List<Node> newNodes=new ArrayList<>();
-              for(Node node:nodes){
-                if(node.type==1){
-                    newNodes.add(new ImgNode(node));
-                }else{
-                    newNodes.add(new TxtNode(node));
-                }
-              }
-              setNodes(newNodes);
-          }
-    }
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeString(this.qw_abstract);
-        dest.writeString(this.small_img);
-        dest.writeLong(this.create_time != null ? this.create_time.getTime() : -1);
-        dest.writeString(this.detail_url);
-        dest.writeInt(this.channelType);
-        dest.writeList(this.nodes);
-    }
-
-    public Item() {
+    public void setHtml(String html) {
+        this.html = html;
     }
 
     protected Item(Parcel in) {
-        this.id = in.readString();
-        this.title = in.readString();
-        this.qw_abstract = in.readString();
-        this.small_img = in.readString();
-        long tmpCreate_time = in.readLong();
-        this.create_time = tmpCreate_time == -1 ? null : new Date(tmpCreate_time);
-        this.detail_url = in.readString();
-        this.channelType = in.readInt();
-        this.nodes = new ArrayList<Node>();
-        in.readList(this.nodes, Node.class.getClassLoader());
+        id = in.readString();
+        title = in.readString();
+        qw_abstract = in.readString();
+        small_img = in.readString();
+        detail_url = in.readString();
+        channelType = in.readInt();
+        html = in.readString();
     }
 
-    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
         @Override
-        public Item createFromParcel(Parcel source) {
-            return new Item(source);
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
         }
 
         @Override
@@ -146,4 +111,20 @@ public class Item extends BaseModel implements Parcelable {
             return new Item[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(qw_abstract);
+        dest.writeString(small_img);
+        dest.writeString(detail_url);
+        dest.writeInt(channelType);
+        dest.writeString(html);
+    }
 }

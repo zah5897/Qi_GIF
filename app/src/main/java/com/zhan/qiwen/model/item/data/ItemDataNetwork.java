@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.zhan.qiwen.model.item.entity.Item;
-import com.zhan.qiwen.model.item.entity.Node;
 import com.zhan.qiwen.model.item.event.ItemDetailEvent;
 import com.zhan.qiwen.model.item.event.ItemsEvent;
 import com.zhan.qiwen.utils.Constant;
@@ -12,7 +11,6 @@ import com.zhan.qiwen.utils.Constant;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -86,11 +84,7 @@ public class ItemDataNetwork implements ItemData {
             public void onResponse(Call<Item> call,
                                    Response<Item> response) {
                 if (response.isSuccessful()) {
-                    Item detail = response.body();
-                    if(detail!=null){
-                        detail.filterNodes();
-                    }
-                    EventBus.getDefault().post(new ItemDetailEvent(detail));
+                    EventBus.getDefault().post(new ItemDetailEvent(response.body()));
                 } else {
                     EventBus.getDefault().post(new ItemDetailEvent(null));
                 }

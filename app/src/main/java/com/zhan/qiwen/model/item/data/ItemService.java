@@ -23,7 +23,7 @@ interface ItemService {
     Call<List<Item>> getItems(@Path("type") int type, @Query("offset") Integer offset,
                               @Query("limit") Integer limit);
 
-    @GET("detail/{type}/{id}/")
+    @GET("detail/{type}/{id}/html")
     Call<Item> getDetail(@Path("type") int type, @Path("id") String id);
 
 }

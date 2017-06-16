@@ -1,4 +1,4 @@
-package com.zhan.qiwen.page.adapter.simpleItem;
+package com.zhan.qiwen.page.adapter.items;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,12 +13,14 @@ import com.bumptech.glide.Glide;
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.model.item.entity.Item;
 import com.zhan.qiwen.page.ItemDetailActivity;
+import com.zhan.qiwen.page.adapter.element.Footer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.drakeet.multitype.ItemViewBinder;
 import me.drakeet.multitype.ItemViewProvider;
 
-public class SimpleItemViewProvider extends ItemViewProvider<Item, SimpleItemViewProvider.ViewHolder> {
+public class SimpleItemViewProvider extends ItemViewBinder<Item, SimpleItemViewProvider.ViewHolder> {
 
     @NonNull
     @Override
@@ -27,6 +29,7 @@ public class SimpleItemViewProvider extends ItemViewProvider<Item, SimpleItemVie
         View root = inflater.inflate(R.layout.item_simple_item, parent, false);
         return new ViewHolder(root);
     }
+
 
     @Override
     protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final Item simpleItem) {

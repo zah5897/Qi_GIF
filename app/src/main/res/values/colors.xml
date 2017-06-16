@@ -20,6 +20,6 @@
     <color name="list_item_press">#216b74ff</color>
     <color name="windowBackground">#F0F0F0</color>
 
-    <color name="colorTitle">#4d4d4d</color>
+    <color name="colorTitle">#62646c</color>
     <color name="colorSubTitle">#999999</color>
 </resources>

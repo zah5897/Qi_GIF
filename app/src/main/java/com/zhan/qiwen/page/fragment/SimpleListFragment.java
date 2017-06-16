@@ -17,7 +17,7 @@ import com.zhan.qiwen.model.item.presenter.ItemsPresenter;
 import com.zhan.qiwen.model.item.view.ItemsView;
 import com.zhan.qiwen.page.adapter.element.Footer;
 import com.zhan.qiwen.page.adapter.element.FooterViewProvider;
-import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
+import com.zhan.qiwen.page.adapter.items.SimpleItemViewProvider;
 import com.zhan.qiwen.page.widget.DividerListItemDecoration;
 import com.zhan.qiwen.page.widget.EmptyRecyclerView;
 import com.zhan.qiwen.page.widget.EmptyView;
@@ -41,7 +41,8 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
     private LinearLayoutManager linearLayoutManager;
     private int type;
 
-    private  FooterViewProvider footerViewProvider;
+    private FooterViewProvider footerViewProvider;
+
     public static SimpleListFragment newInstance(Channel channel) {
         SimpleListFragment topicFragment = new SimpleListFragment();
         Bundle b = new Bundle();
@@ -49,9 +50,10 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
         topicFragment.setArguments(b);
         return topicFragment;
     }
+
     @Override
     protected View loadLayout(LayoutInflater inflater, ViewGroup container) {
-        View view=inflater.inflate(R.layout.fragment_simple_item, container, false);
+        View view = inflater.inflate(R.layout.fragment_simple_item, container, false);
         ButterKnife.bind(this, view);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(adapter);
@@ -60,14 +62,15 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
         setListener();
         return view;
     }
+
     @Override
     protected void firstInit() {
-        Log.e("BaseFragment","firstInit");
+        Log.e("BaseFragment", "firstInit");
         linearLayoutManager = new LinearLayoutManager(getContext());
         items = new Items();
         adapter = new MultiTypeAdapter(items);
         adapter.register(Item.class, new SimpleItemViewProvider());
-        footerViewProvider=new FooterViewProvider();
+        footerViewProvider = new FooterViewProvider();
         adapter.register(Footer.class, footerViewProvider);
     }
 
@@ -77,7 +80,7 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
         loadData();
     }
 
-    protected  void setListener(){
+    protected void setListener() {
         type = getArguments().getInt(TYPE);
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisibleItem;
@@ -113,11 +116,11 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
     }
 
     @Override
-    public void showItems(int type,List<Item> simpleItems) {
-        if(this.type!=type){
+    public void showItems(int type, List<Item> simpleItems) {
+        if (this.type != type) {
             return;
         }
-        if (simpleItems!=null) {
+        if (simpleItems != null) {
             if (items.size() == 0) {
                 items.add(new Footer());
             }
@@ -134,14 +137,14 @@ public class SimpleListFragment extends BaseMvpFragment implements ItemsView {
             }
             adapter.notifyItemChanged(adapter.getItemCount());
         }
-        if(adapter.getItemCount()>0){
+        if (adapter.getItemCount() > 0) {
             emptyView.showEmpty();
         }
     }
 
     @Override
     protected BasePresenter createPresenter() {
-        Log.d(TAG,TAG);
+        Log.d(TAG, TAG);
         return new ItemsPresenter(this);
     }
 }

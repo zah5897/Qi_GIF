@@ -1,29 +1,22 @@
 package com.zhan.qiwen.page;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseSwipBackMvpActivity;
 import com.zhan.qiwen.model.base.BasePresenter;
-import com.zhan.qiwen.model.item.entity.ImgNode;
 import com.zhan.qiwen.model.item.entity.Item;
-import com.zhan.qiwen.model.item.entity.TitleNode;
-import com.zhan.qiwen.model.item.entity.TxtNode;
 import com.zhan.qiwen.model.item.presenter.ItemDetailPresenter;
 import com.zhan.qiwen.model.item.view.ItemDetailView;
-import com.zhan.qiwen.page.adapter.items.NodeImgViewProvider;
-import com.zhan.qiwen.page.adapter.items.NodeTitleViewProvider;
-import com.zhan.qiwen.page.adapter.items.NodeTxtViewProvider;
-import com.zhan.qiwen.page.widget.DividerListItemDecoration;
+import com.zhan.qiwen.page.adapter.element.Header;
+import com.zhan.qiwen.page.adapter.items.HtmlHeaderViewProvider;
 import com.zhan.qiwen.page.widget.EmptyRecyclerView;
 import com.zhan.qiwen.page.widget.EmptyView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.drakeet.multitype.FlatTypeAdapter;
 import me.drakeet.multitype.Items;
 import me.drakeet.multitype.MultiTypeAdapter;
 
@@ -48,9 +41,7 @@ public class ItemDetailActivity extends BaseSwipBackMvpActivity implements ItemD
         ButterKnife.bind(this);
         items = new Items();
         adapter = new MultiTypeAdapter(items);
-        adapter.register(TitleNode.class, new NodeTitleViewProvider());
-        adapter.register(TxtNode.class, new NodeTxtViewProvider());
-        adapter.register(ImgNode.class, new NodeImgViewProvider());
+        adapter.register(Header.class, new HtmlHeaderViewProvider());
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 //        rv.addItemDecoration(new DividerListItemDecoration(this));
@@ -62,14 +53,10 @@ public class ItemDetailActivity extends BaseSwipBackMvpActivity implements ItemD
     @Override
     public void showDetail(Item detail) {
         if (detail != null) {
-            items.add(new TitleNode(detail.getTitle()));
-            if (detail != null && detail.getNodes() != null) {
-                items.addAll(detail.getNodes());
-            }
-        } else {
-            items.add(new TitleNode(detail.getTitle(),detail.getCreate_time()));
+            this.model = detail;
+            items.add(new Header(detail));
+            adapter.notifyDataSetChanged();
         }
-        adapter.notifyDataSetChanged();
     }
 
     @Override

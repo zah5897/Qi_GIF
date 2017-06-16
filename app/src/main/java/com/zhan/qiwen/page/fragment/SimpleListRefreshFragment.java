@@ -8,7 +8,7 @@ import com.zhan.qiwen.model.channel.entity.Channel;
 import com.zhan.qiwen.model.item.entity.Item;
 import com.zhan.qiwen.model.item.presenter.ItemsPresenter;
 import com.zhan.qiwen.model.item.view.ItemsView;
-import com.zhan.qiwen.page.adapter.simpleItem.SimpleItemViewProvider;
+import com.zhan.qiwen.page.adapter.items.SimpleItemViewProvider;
 
 import java.util.List;
 
@@ -42,8 +42,8 @@ public class SimpleListRefreshFragment extends BaseRefreshFragment implements It
     }
 
     @Override
-    public void showItems(int type,List<Item> simpleItems) {
-        if(this.type!=type){
+    public void showItems(int type, List<Item> simpleItems) {
+        if (this.type != type) {
             return;
         }
         onLoadData(simpleItems);

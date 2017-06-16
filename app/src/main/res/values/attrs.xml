@@ -26,4 +26,11 @@
         <attr name="ctvDirection" format="integer"/>
     </declare-styleable>
 
+
+    <declare-styleable name="HtmlTextView">
+        <attr name="loadingImg" format="reference"/>
+        <attr name="errorImg" format="reference"/>
+        <attr name="defaultWidth" format="reference"/>
+        <attr name="defaultHeight" format="reference"/>
+    </declare-styleable>
 </resources>
