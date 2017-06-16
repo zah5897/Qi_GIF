@@ -26,5 +26,4 @@
         <attr name="ctvDirection" format="integer"/>
     </declare-styleable>
 
-    <attr name="main_bg" format="reference|color"/>
 </resources>

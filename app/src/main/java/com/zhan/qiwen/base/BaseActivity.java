@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.zhan.qiwen.R;
 import com.zhan.qiwen.utils.Constant;
 import com.zhan.qiwen.utils.PrefUtil;
 
@@ -24,9 +23,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (PrefUtil.getInstance(getApplicationContext()).getInt(Constant.Theme.SP_THEME, Constant.Theme.THEME_LIGHT) == Constant.Theme.THEME_LIGHT) {
-            setTheme(R.style.Theme_Light);
+            //setTheme(R.style.Theme_Light);
         } else {
-            setTheme(R.style.Theme_Night);
+            //setTheme(R.style.Theme_Night);
         }
     }
 

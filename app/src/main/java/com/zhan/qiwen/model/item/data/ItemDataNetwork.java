@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.GsonBuilder;
 import com.zhan.qiwen.model.item.entity.Item;
+import com.zhan.qiwen.model.item.entity.Node;
 import com.zhan.qiwen.model.item.event.ItemDetailEvent;
 import com.zhan.qiwen.model.item.event.ItemsEvent;
 import com.zhan.qiwen.utils.Constant;
@@ -11,6 +12,7 @@ import com.zhan.qiwen.utils.Constant;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -43,7 +45,7 @@ public class ItemDataNetwork implements ItemData {
             }
         });
         OkHttpClient client = clientBuilder.build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.ROOT_HTTP_PATH + "/data/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.ROOT_HTTP_PATH + "/data/v1/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create()))
                 .client(client)
                 .build();
@@ -85,6 +87,9 @@ public class ItemDataNetwork implements ItemData {
                                    Response<Item> response) {
                 if (response.isSuccessful()) {
                     Item detail = response.body();
+                    if(detail!=null){
+                        detail.filterNodes();
+                    }
                     EventBus.getDefault().post(new ItemDetailEvent(detail));
                 } else {
                     EventBus.getDefault().post(new ItemDetailEvent(null));

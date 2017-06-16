@@ -89,6 +89,19 @@ public class Item extends BaseModel implements Parcelable {
         this.nodes = nodes;
     }
 
+    public void filterNodes(){
+          if(nodes!=null){
+              List<Node> newNodes=new ArrayList<>();
+              for(Node node:nodes){
+                if(node.type==1){
+                    newNodes.add(new ImgNode(node));
+                }else{
+                    newNodes.add(new TxtNode(node));
+                }
+              }
+              setNodes(newNodes);
+          }
+    }
     @Override
     public int describeContents() {
         return 0;

@@ -57,11 +57,13 @@
             android:onClick="channelManager"
             android:src="@drawable/ic_category_expand" />
     </LinearLayout>
-
+    <View android:id="@+id/break_line"
+        android:layout_width="match_parent"  android:layout_below="@+id/tab_bar"
+        android:layout_height="0.5dp" android:background="@color/divider"></View>
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tab_bar" />
+        android:layout_below="@+id/break_line" />
 
 </RelativeLayout>
