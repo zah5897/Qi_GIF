@@ -22,4 +22,11 @@
 
     <color name="colorTitle">#62646c</color>
     <color name="colorSubTitle">#999999</color>
+
+
+    <color name="action_comment_text">#fffafafa</color>
+    <color name="comment_toolbar_bg">#fff4f5f6</color>
+
+
+
 </resources>

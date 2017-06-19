@@ -10,6 +10,5 @@ import com.zhan.qiwen.model.user.entity.UserDetailInfo;
 
 public interface UserView extends BaseView {
     void getMe(UserDetailInfo userDetailInfo);
-
     void getUser(UserDetailInfo userDetailInfo);
 }

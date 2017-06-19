@@ -131,7 +131,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             public void run() {
                 // Toast 显示需要出现在一个线程的消息队列中    
                 Looper.prepare();
-                Toast.makeText(mContext, "程序出错啦,我们会尽快修改:" + msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "程序出错啦，我们会尽快修改，请多多包涵。", Toast.LENGTH_SHORT).show();
                 Looper.loop();
             }
         }.start();

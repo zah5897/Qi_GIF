@@ -1,6 +1,7 @@
 package com.zhan.qiwen.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -27,6 +28,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         } else {
             //setTheme(R.style.Theme_Night);
         }
+    }
+
+    public Context getContext() {
+        return this;
     }
 
     protected void intent2Activity(Class<? extends Activity> tarActivity) {

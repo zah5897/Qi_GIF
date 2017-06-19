@@ -2,6 +2,9 @@ package com.zhan.qiwen.page;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseSwipBackMvpActivity;
@@ -29,6 +32,10 @@ public class ItemDetailActivity extends BaseSwipBackMvpActivity implements ItemD
     EmptyRecyclerView rv;
     @BindView(R.id.empty_view)
     EmptyView emptyView;
+    @BindView(R.id.write_comment_layout)
+    EditText writeCommentLayout;
+    @BindView(R.id.send)
+    TextView send;
     private Item model;
     private MultiTypeAdapter adapter;
     private Items items;
@@ -64,8 +71,16 @@ public class ItemDetailActivity extends BaseSwipBackMvpActivity implements ItemD
         return new ItemDetailPresenter(this);
     }
 
-    @OnClick(R.id.title_bar_left_btn)
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.title_bar_left_btn, R.id.action_favor, R.id.action_repost})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.title_bar_left_btn:
+                finish();
+                break;
+            case R.id.action_favor:
+                break;
+            case R.id.action_repost:
+                break;
+        }
     }
 }

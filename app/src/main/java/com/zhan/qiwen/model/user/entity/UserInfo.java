@@ -8,8 +8,7 @@ import com.google.gson.annotations.SerializedName;
 public class UserInfo {
 
     @SerializedName("id") private int id;
-    @SerializedName("login") private String login;
-    @SerializedName("name") private String name;
+    @SerializedName("nickname") private String nickname;
     @SerializedName("avatar_url") private String avatarUrl;
 
     public int getId() {
@@ -20,20 +19,12 @@ public class UserInfo {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public String getAvatarUrl() {
@@ -42,21 +33,5 @@ public class UserInfo {
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
-    }
-
-    @Override public String toString() {
-        return "UserInfo{"
-            + "id="
-            + id
-            + ", login='"
-            + login
-            + '\''
-            + ", name='"
-            + name
-            + '\''
-            + ", avatarUrl='"
-            + avatarUrl
-            + '\''
-            + '}';
     }
 }

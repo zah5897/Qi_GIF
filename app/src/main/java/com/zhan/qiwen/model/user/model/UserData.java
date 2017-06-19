@@ -29,66 +29,7 @@ interface UserData extends BaseData {
      */
     void getUser(String loginName);
 
-    /**
-     * 获取用户屏蔽的用户
-     *
-     * @param loginName 用户登录名
-     */
-    void getUserBlocked(String token, String loginName, Integer offset, Integer limit);
 
-    /**
-     * 获取用户正在关注的人
-     *
-     * @param loginName 用户登录名
-     */
-    void getUserFollowing(String token, String loginName, Integer offset, Integer limit);
-
-    /**
-     * 获取用户的关注者列表
-     *
-     * @param loginName 用户登录名
-     */
-    void getUserFollowers(String token, String loginName, Integer offset, Integer limit);
-
-    /**
-     * 屏蔽用户
-     */
-    void blockUser(String token, String loginName);
-
-    /**
-     * 取消屏蔽用户
-     */
-    void unBlockUser(String token, String loginName);
-
-    /**
-     * 关注用户
-     */
-    void followUser(String token, String loginName);
-
-    /**
-     * 取消关注用户
-     */
-    void unFollowUser(String token, String loginName);
-
-    /**
-     * 收藏话题
-     */
-    void favoriteTopic(String token, int id);
-
-    /**
-     * 取消收藏话题
-     */
-    void unFavoriteTopic(String token, int id);
-
-    /**
-     * 关注话题
-     */
-    void followTopic(String token, int id);
-
-    /**
-     * 取消关注话题
-     */
-    void unFollowTopic(String token, int id);
 
 
 

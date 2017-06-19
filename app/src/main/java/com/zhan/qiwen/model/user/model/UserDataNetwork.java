@@ -6,24 +6,13 @@ import com.zhan.qiwen.model.topic.entity.Reply;
 import com.zhan.qiwen.model.topic.entity.Topic;
 import com.zhan.qiwen.model.topic.event.RepliesEvent;
 import com.zhan.qiwen.model.user.entity.Token;
-import com.zhan.qiwen.model.user.entity.UserBlock;
 import com.zhan.qiwen.model.user.entity.UserDetailInfo;
-import com.zhan.qiwen.model.user.entity.UserFollow;
 import com.zhan.qiwen.model.user.entity.UserInfo;
-import com.zhan.qiwen.model.user.entity.UserUnBlock;
-import com.zhan.qiwen.model.user.entity.UserUnFollow;
 import com.zhan.qiwen.model.user.event.MeEvent;
 import com.zhan.qiwen.model.user.event.RefreshTokenEvent;
 import com.zhan.qiwen.model.user.event.TokenEvent;
-import com.zhan.qiwen.model.user.event.UserBlockEvent;
-import com.zhan.qiwen.model.user.event.UserBlockedEvent;
 import com.zhan.qiwen.model.user.event.UserDetailInfoEvent;
 import com.zhan.qiwen.model.user.event.UserFavoriteTopicsEvent;
-import com.zhan.qiwen.model.user.event.UserFollowEvent;
-import com.zhan.qiwen.model.user.event.UserFollowersEvent;
-import com.zhan.qiwen.model.user.event.UserFollowingEvent;
-import com.zhan.qiwen.model.user.event.UserUnBlockEvent;
-import com.zhan.qiwen.model.user.event.UserUnFollowEvent;
 import com.zhan.qiwen.utils.Constant;
 
 import org.greenrobot.eventbus.EventBus;
@@ -143,182 +132,8 @@ public class UserDataNetwork implements UserData {
         });
     }
 
-    @Override
-    public void getUserBlocked(String token, String loginName, Integer offset, Integer limit) {
-        Call<List<UserInfo>> call =
-            userService.getUserBlocked(Constant.VALUE_TOKEN_PREFIX + Constant.VALUE_TOKEN,
-                loginName, offset, limit);
-        call.enqueue(new Callback<List<UserInfo>>() {
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-                if (response.isSuccessful()) {
-                    List<UserInfo> userInfoList = response.body();
-                    Log.v(TAG, "userInfoList: " + userInfoList);
-                    EventBus.getDefault().post(new UserBlockedEvent(userInfoList));
-                } else {
-                    Log.e(TAG, "getUserBlocked STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserBlockedEvent(null));
-                }
-            }
 
-            @Override public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserBlockedEvent(null));
-            }
-        });
-    }
 
-    @Override
-    public void getUserFollowing(String token, String loginName, Integer offset, Integer limit) {
-        Call<List<UserInfo>> call =
-            userService.getUserFollowing(Constant.VALUE_TOKEN_PREFIX + Constant.VALUE_TOKEN,
-                loginName, offset, limit);
-        call.enqueue(new Callback<List<UserInfo>>() {
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-                if (response.isSuccessful()) {
-                    List<UserInfo> userInfoList = response.body();
-                    Log.v(TAG, "userInfoList: " + userInfoList);
-                    EventBus.getDefault().post(new UserFollowingEvent(userInfoList));
-                } else {
-                    Log.e(TAG, "getUserBlocked STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserFollowingEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserFollowingEvent(null));
-            }
-        });
-    }
-
-    @Override
-    public void getUserFollowers(String token, String loginName, Integer offset, Integer limit) {
-        Call<List<UserInfo>> call =
-            userService.getUserFollowers(Constant.VALUE_TOKEN_PREFIX + Constant.VALUE_TOKEN,
-                loginName, offset, limit);
-        call.enqueue(new Callback<List<UserInfo>>() {
-            @Override
-            public void onResponse(Call<List<UserInfo>> call, Response<List<UserInfo>> response) {
-                if (response.isSuccessful()) {
-                    List<UserInfo> userInfoList = response.body();
-                    Log.v(TAG, "userInfoList: " + userInfoList);
-                    EventBus.getDefault().post(new UserFollowersEvent(userInfoList));
-                } else {
-                    Log.e(TAG, "getUserBlocked STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserFollowersEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<List<UserInfo>> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserFollowersEvent(null));
-            }
-        });
-    }
-
-    @Override public void blockUser(String token, String loginName) {
-        Call<UserBlock> call = userService.blockUser(token, loginName);
-        call.enqueue(new Callback<UserBlock>() {
-            @Override public void onResponse(Call<UserBlock> call, Response<UserBlock> response) {
-                if (response.isSuccessful()) {
-                    UserBlock userBlock = response.body();
-                    Log.v(TAG, "blockUser: " + userBlock);
-                    EventBus.getDefault().post(new UserBlockEvent(userBlock));
-                } else {
-                    Log.e(TAG, "blockUser STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserBlockEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<UserBlock> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserBlockEvent(null));
-            }
-        });
-    }
-
-    @Override public void unBlockUser(String token, String loginName) {
-        Call<UserUnBlock> call = userService.unBlockUser(token, loginName);
-        call.enqueue(new Callback<UserUnBlock>() {
-            @Override
-            public void onResponse(Call<UserUnBlock> call, Response<UserUnBlock> response) {
-                if (response.isSuccessful()) {
-                    UserUnBlock userUnBlock = response.body();
-                    Log.v(TAG, "unBlockUser: " + userUnBlock);
-                    EventBus.getDefault().post(new UserUnBlockEvent(userUnBlock));
-                } else {
-                    Log.e(TAG, "unBlockUser STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserUnBlockEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<UserUnBlock> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserUnBlockEvent(null));
-            }
-        });
-    }
-
-    @Override public void followUser(String token, String loginName) {
-        Call<UserFollow> call = userService.followUser(token, loginName);
-        call.enqueue(new Callback<UserFollow>() {
-            @Override public void onResponse(Call<UserFollow> call, Response<UserFollow> response) {
-                if (response.isSuccessful()) {
-                    UserFollow userFollow = response.body();
-                    Log.v(TAG, "userFollow: " + userFollow);
-                    EventBus.getDefault().post(new UserFollowEvent(userFollow));
-                } else {
-                    Log.e(TAG, "followUser STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserFollowEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<UserFollow> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserFollowEvent(null));
-            }
-        });
-    }
-
-    @Override public void unFollowUser(String token, String loginName) {
-        Call<UserUnFollow> call = userService.unFollowUser(token, loginName);
-        call.enqueue(new Callback<UserUnFollow>() {
-            @Override
-            public void onResponse(Call<UserUnFollow> call, Response<UserUnFollow> response) {
-                if (response.isSuccessful()) {
-                    UserUnFollow userUnFollow = response.body();
-                    Log.v(TAG, "userUnFollow: " + userUnFollow);
-                    EventBus.getDefault().post(new UserUnFollowEvent(userUnFollow));
-                } else {
-                    Log.e(TAG, "followUser STATUS: " + response.code());
-                    EventBus.getDefault().post(new UserUnFollowEvent(null));
-                }
-            }
-
-            @Override public void onFailure(Call<UserUnFollow> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-                EventBus.getDefault().post(new UserUnFollowEvent(null));
-            }
-        });
-    }
-
-    @Override public void favoriteTopic(String token, int id) {
-
-    }
-
-    @Override public void unFavoriteTopic(String token, int id) {
-
-    }
-
-    @Override public void followTopic(String token, int id) {
-
-    }
-
-    @Override public void unFollowTopic(String token, int id) {
-
-    }
     @Override public void getUserFavoriteTopics(String loginName, Integer offset, Integer limit) {
         Call<List<Topic>> call = userService.getUserFavoriteTopics(loginName, offset, limit);
 

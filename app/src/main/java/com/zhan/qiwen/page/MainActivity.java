@@ -1,5 +1,6 @@
 package com.zhan.qiwen.page;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -14,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,21 +27,28 @@ import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseActivity;
 import com.zhan.qiwen.model.channel.ChannelManager;
 import com.zhan.qiwen.model.channel.entity.Channel;
+import com.zhan.qiwen.model.user.entity.Token;
+import com.zhan.qiwen.model.user.entity.UserDetailInfo;
+import com.zhan.qiwen.model.user.presenter.UserPresenter;
+import com.zhan.qiwen.model.user.view.UserView;
 import com.zhan.qiwen.page.adapter.main.MainPagerAdapter;
 import com.zhan.qiwen.page.fragment.ChannelDialogFragment;
 import com.zhan.qiwen.page.widget.ColorTrackTabLayout;
+import com.zhan.qiwen.utils.PrefUtil;
 import com.zhan.qiwen.utils.ToolBarUtil;
+import com.zhan.qiwen.utils.ZLog;
 
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, UserView {
 
     PagerAdapter pagerAdapter;
     ViewPager viewPager;
     ColorTrackTabLayout tabLayout;
     DrawerLayout drawer;
-
+    private UserPresenter userPresenter;
+    private UserDetailInfo me;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +76,25 @@ public class MainActivity extends BaseActivity
                 drawer.openDrawer(GravityCompat.START);
             }
         });
+        loadToken();
+    }
+
+    private void loadToken() {
+        userPresenter = new UserPresenter(this);
+        Token token = PrefUtil.getToken(this);
+        if (!TextUtils.isEmpty(token.getAccessToken())) {
+            me = PrefUtil.getMe(this);
+            if (!TextUtils.isEmpty(me.getLogin())
+                    && !TextUtils.isEmpty(me.getAvatarUrl())
+                    && !TextUtils.isEmpty(me.getEmail())) {
+                showMe(me);
+            } else {
+                ZLog.e("user is null");
+                userPresenter.getMe();
+            }
+        } else {
+            ZLog.e("token is null");
+        }
     }
 
     @Override
@@ -88,47 +117,11 @@ public class MainActivity extends BaseActivity
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -151,5 +144,15 @@ public class MainActivity extends BaseActivity
 //                slidingTabStrip.setMinimumWidth(slidingTabStrip.getMeasuredWidth() + v.getMeasuredWidth());
             }
         });
+    }
+
+    @Override
+    public void getMe(UserDetailInfo userDetailInfo) {
+
+    }
+
+    @Override
+    public void getUser(UserDetailInfo userDetailInfo) {
+
     }
 }

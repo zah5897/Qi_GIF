@@ -4,12 +4,8 @@ package com.zhan.qiwen.model.user.model;
 import com.zhan.qiwen.model.topic.entity.Reply;
 import com.zhan.qiwen.model.topic.entity.Topic;
 import com.zhan.qiwen.model.user.entity.Token;
-import com.zhan.qiwen.model.user.entity.UserBlock;
 import com.zhan.qiwen.model.user.entity.UserDetailInfo;
-import com.zhan.qiwen.model.user.entity.UserFollow;
 import com.zhan.qiwen.model.user.entity.UserInfo;
-import com.zhan.qiwen.model.user.entity.UserUnBlock;
-import com.zhan.qiwen.model.user.entity.UserUnFollow;
 import com.zhan.qiwen.utils.Constant;
 
 import java.util.List;
@@ -80,30 +76,6 @@ interface UserService {
     @GET("users/{loginName}/followers.json") Call<List<UserInfo>> getUserFollowers(
             @Header(Constant.KEY_TOKEN) String token, @Path("loginName") String loginName,
             @Query("offset") Integer offset, @Query("limit") Integer limit);
-
-    /**
-     * 屏蔽用户
-     */
-    @POST("users/{login}/block.json") Call<UserBlock> blockUser(
-            @Header(Constant.KEY_TOKEN) String token, @Path("loginName") String loginName);
-
-    /**
-     * 取消屏蔽用户
-     */
-    @POST("users/{login}/unblock.json") Call<UserUnBlock> unBlockUser(
-            @Header(Constant.KEY_TOKEN) String token, @Path("loginName") String loginName);
-
-    /**
-     * 关注用户
-     */
-    @POST("users/{login}/follow.json") Call<UserFollow> followUser(
-            @Header(Constant.KEY_TOKEN) String token, @Path("loginName") String loginName);
-
-    /**
-     * 取消关注用户
-     */
-    @POST("users/{login}/unfollow.json") Call<UserUnFollow> unFollowUser(
-            @Header(Constant.KEY_TOKEN) String token, @Path("loginName") String loginName);
 
     /**
      * 获取用户创建的话题列表

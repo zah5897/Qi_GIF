@@ -20,8 +20,10 @@
     <dimen name="list_item_sub_title_size">13sp</dimen>
 
     <dimen name="dp_4">4dp</dimen>
+
+    <dimen name="dp_5">5dp</dimen>
+    <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_8">8dp</dimen>
-    <dimen name="dp_6">8dp</dimen>
     <dimen name="dp_10">10dp</dimen>
     <dimen name="dp_15">15dp</dimen>
     <dimen name="dp_20">20dp</dimen>

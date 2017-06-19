@@ -98,7 +98,7 @@ public class PrefUtil {
      */
     public static void saveMe(Context context, UserDetailInfo userDetailInfo) {
         PrefUtil prefUtil = PrefUtil.getInstance(context);
-        prefUtil.putString(Constant.User.LOGIN, userDetailInfo.getLogin());
+        prefUtil.putString(Constant.User.ID, userDetailInfo.getId());
         prefUtil.putString(Constant.User.AVATAR_URL, userDetailInfo.getAvatarUrl());
         prefUtil.putString(Constant.User.EMAIL, userDetailInfo.getEmail());
     }

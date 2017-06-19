@@ -2,7 +2,7 @@ package com.zhan.qiwen.utils;
 
 public class Constant {
 
-    public static final String KEYSTORE_KEY_ALIAS = "DiyCode";
+    public static final String KEYSTORE_KEY_ALIAS = "QiWen";
     public static final String VALUE_CLIENT_ID = "5e9268a6";
     public static final String VALUE_CLIENT_SECRET =
         "1feed4136daa95b76e53236cb937b63995c725dd33cd6705639384b9b34ea130";
@@ -29,9 +29,10 @@ public class Constant {
     }
 
     public static class User {
-        public static final String LOGIN = "login";
+        public static final String ID = "id";
         public static final String AVATAR_URL = "avatar_url";
-        public static final String EMAIL = "email";
+        public static final String USERNAME = "username";
+        public static final String NICKNAME = "nickname";
     }
 
     public static class Theme{
