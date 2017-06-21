@@ -16,41 +16,46 @@ import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewProvider;
 
 public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvider.ViewHolder> {
-     ViewHolder viewHolder;
-     private int status=Footer.STATUS_NORMAL;
-    @NonNull @Override protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
-        @NonNull ViewGroup parent) {
+    ViewHolder viewHolder;
+    private int status = Footer.STATUS_NORMAL;
+
+    @NonNull
+    @Override
+    protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
+                                            @NonNull ViewGroup parent) {
         View root = inflater.inflate(R.layout.item_load_more, parent, false);
-        viewHolder= new ViewHolder(root);
+        viewHolder = new ViewHolder(root);
         return viewHolder;
     }
 
-    @Override protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
-        refreshStatus(viewHolder,status);
-        if(status==Footer.STATUS_NORMAL){
+    @Override
+    protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
+        refreshStatus(viewHolder, status);
+        if (status == Footer.STATUS_NORMAL) {
             needLoadMore();
         }
     }
 
-
-     public  boolean isLoadMore(){
-         return status==Footer.STATUS_LOAD_MORE;
-     }
-
-    public void refreshFooterStatus(int status){
-        this.status=status;
-         if(viewHolder!=null){
-             refreshStatus(viewHolder,status);
-         }
+    public boolean isLoadMore() {
+        return status == Footer.STATUS_LOAD_MORE;
     }
 
-    public boolean canRefresh(){
-        return status==Footer.STATUS_NORMAL||status==Footer.STATUS_NO_MORE;
+    public void refreshFooterStatus(int status) {
+        this.status = status;
+        if (viewHolder != null) {
+            refreshStatus(viewHolder, status);
+        }
     }
-    public boolean canLoadMore(){
-        return status==Footer.STATUS_NORMAL;
+
+    public boolean canRefresh() {
+        return status == Footer.STATUS_NORMAL || status == Footer.STATUS_NO_MORE;
     }
-    private void refreshStatus(ViewHolder viewHolder,int status){
+
+    public boolean canLoadMore() {
+        return status == Footer.STATUS_NORMAL;
+    }
+
+    private void refreshStatus(ViewHolder viewHolder, int status) {
         switch (status) {
             case Footer.STATUS_NO_MORE:
                 viewHolder.tips.setText("没有更多了");
@@ -64,10 +69,16 @@ public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvi
         }
     }
 
-    public void needLoadMore(){};
+    public void needLoadMore() {
+    }
+
+    ;
+
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tips) TextView tips;
-        @BindView(R.id.progress_bar) ProgressBar progressBar;
+        @BindView(R.id.tips)
+        TextView tips;
+        @BindView(R.id.progress_bar)
+        ProgressBar progressBar;
 
         ViewHolder(View itemView) {
             super(itemView);

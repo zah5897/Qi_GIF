@@ -28,4 +28,6 @@
     <string name="title_txt_detail">详情</string>
     <string name="send">发送</string>
 
+
+    <string name="exit_tip">在按一次退出</string>
 </resources>

@@ -20,22 +20,9 @@ public class ChannelDataNetwork {
 
     public ChannelDataNetwork() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-
-        clientBuilder.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request original = chain.request();
-                Request.Builder builder = original.newBuilder();
-                if (Constant.VALUE_TOKEN != null) {
-                    builder.addHeader(Constant.KEY_TOKEN,
-                            Constant.VALUE_TOKEN_PREFIX + Constant.VALUE_TOKEN);
-                }
-                return chain.proceed(builder.build());
-            }
-        });
         OkHttpClient client = clientBuilder.build();
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.ROOT_HTTP_PATH+"/channel/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Constant.ROOT_HTTP_PATH + "/channel/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

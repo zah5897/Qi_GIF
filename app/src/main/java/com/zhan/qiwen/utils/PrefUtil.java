@@ -4,19 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.zhan.qiwen.model.user.entity.Token;
-import com.zhan.qiwen.model.user.entity.UserDetailInfo;
-
-import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableEntryException;
-import java.security.cert.CertificateException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
+import com.zhan.qiwen.model.user.entity.UserInfo;
 
 /**
  * 偏好参数存储工具类
@@ -28,7 +16,7 @@ public class PrefUtil {
 
     private PrefUtil(Context context) {
         mSharedPreferences =
-            context.getApplicationContext().getSharedPreferences(Constant.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+                context.getApplicationContext().getSharedPreferences(Constant.SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
     }
 
@@ -46,73 +34,55 @@ public class PrefUtil {
     /**
      * 存储登录 Token
      */
-    public static void saveToken(Context context, Token token) {
-        Constant.VALUE_TOKEN = token.getAccessToken();
+    public static void saveToken(Context context, String token) {
+        Constant.VALUE_TOKEN = token;
         try {
-            token.setAccessToken(
-                KeyStoreHelper.encrypt(Constant.KEYSTORE_KEY_ALIAS, token.getAccessToken()));
-            token.setTokenType(
-                KeyStoreHelper.encrypt(Constant.KEYSTORE_KEY_ALIAS, token.getTokenType()));
-            token.setRefreshToken(
-                KeyStoreHelper.encrypt(Constant.KEYSTORE_KEY_ALIAS, token.getRefreshToken()));
-        } catch (InvalidKeyException | BadPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | UnrecoverableEntryException | KeyStoreException | IOException | NoSuchPaddingException | CertificateException e) {
+            EncryUtils.get().encryptString(Constant.Token.ACCESS_TOKEN, token);
+        } catch (Exception e) {
             e.printStackTrace();
             Constant.VALUE_TOKEN = "";
             return;
         }
         PrefUtil prefUtil = PrefUtil.getInstance(context);
-        prefUtil.putString(Constant.Token.ACCESS_TOKEN, token.getAccessToken());
-        prefUtil.putString(Constant.Token.TOKEN_TYPE, token.getTokenType());
-        prefUtil.putInt(Constant.Token.EXPIRES_IN, token.getExpiresIn());
-        prefUtil.putString(Constant.Token.REFRESH_TOKEN, token.getRefreshToken());
-        prefUtil.putInt(Constant.Token.CREATED_AT, token.getCreatedAt());
+        prefUtil.putString(Constant.Token.ACCESS_TOKEN, token);
     }
 
     /**
      * 获取登录 Token
      */
-    public static Token getToken(Context context) {
+    public static String getToken(Context context) {
         PrefUtil prefUtil = PrefUtil.getInstance(context);
-        Token token = new Token();
-        token.setAccessToken(prefUtil.getString(Constant.Token.ACCESS_TOKEN, ""));
-        token.setTokenType(prefUtil.getString(Constant.Token.TOKEN_TYPE, ""));
-        token.setExpiresIn(prefUtil.getInt(Constant.Token.EXPIRES_IN, 0));
-        token.setRefreshToken(prefUtil.getString(Constant.Token.REFRESH_TOKEN, ""));
-        token.setCreatedAt(prefUtil.getInt(Constant.Token.CREATED_AT, 0));
+        String token = prefUtil.getString(Constant.Token.ACCESS_TOKEN, "");
+
         try {
-            token.setAccessToken(
-                KeyStoreHelper.decrypt(Constant.KEYSTORE_KEY_ALIAS, token.getAccessToken()));
-            token.setTokenType(
-                KeyStoreHelper.decrypt(Constant.KEYSTORE_KEY_ALIAS, token.getTokenType()));
-            token.setRefreshToken(
-                KeyStoreHelper.decrypt(Constant.KEYSTORE_KEY_ALIAS, token.getRefreshToken()));
-        } catch (InvalidKeyException | BadPaddingException | NoSuchAlgorithmException | IllegalBlockSizeException | UnrecoverableEntryException | KeyStoreException | IOException | NoSuchPaddingException | CertificateException e) {
+            token = EncryUtils.get().decryptString(Constant.Token.ACCESS_TOKEN, token);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Constant.VALUE_TOKEN = token.getAccessToken();
+        Constant.VALUE_TOKEN = token;
         return token;
     }
 
     /**
      * 存储登录信息
      */
-    public static void saveMe(Context context, UserDetailInfo userDetailInfo) {
+    public static void saveMe(Context context, UserInfo userInfo) {
         PrefUtil prefUtil = PrefUtil.getInstance(context);
-        prefUtil.putString(Constant.User.ID, userDetailInfo.getId());
-        prefUtil.putString(Constant.User.AVATAR_URL, userDetailInfo.getAvatarUrl());
-        prefUtil.putString(Constant.User.EMAIL, userDetailInfo.getEmail());
+        prefUtil.putLong(Constant.User.ID, userInfo.getId());
+        prefUtil.putString(Constant.User.AVATAR_URL, userInfo.getAvatar());
+        prefUtil.putString(Constant.User.NICKNAME, userInfo.getNickname());
     }
 
     /**
      * 获取登录信息
      */
-    public static UserDetailInfo getMe(Context context) {
+    public static UserInfo getMe(Context context) {
         PrefUtil prefUtil = PrefUtil.getInstance(context);
-        UserDetailInfo userDetailInfo = new UserDetailInfo();
-        userDetailInfo.setLogin(prefUtil.getString(Constant.User.LOGIN, ""));
-        userDetailInfo.setAvatarUrl(prefUtil.getString(Constant.User.AVATAR_URL, ""));
-        userDetailInfo.setEmail(prefUtil.getString(Constant.User.EMAIL, ""));
-        return userDetailInfo;
+        UserInfo info = new UserInfo();
+        info.setId(prefUtil.getLong(Constant.User.ID, 0));
+        info.setAvatar(prefUtil.getString(Constant.User.AVATAR_URL, ""));
+        info.setNickname(prefUtil.getString(Constant.User.NICKNAME, ""));
+        return info;
     }
 
     /**
@@ -121,16 +91,12 @@ public class PrefUtil {
     public static void clearMe(Context context) {
         PrefUtil prefUtil = PrefUtil.getInstance(context);
         // User
-        prefUtil.putString(Constant.User.LOGIN, "");
+        prefUtil.putLong(Constant.User.ID, 0);
         prefUtil.putString(Constant.User.AVATAR_URL, "");
-        prefUtil.putString(Constant.User.EMAIL, "");
+        prefUtil.putString(Constant.User.NICKNAME, "");
 
         // Token
         prefUtil.putString(Constant.Token.ACCESS_TOKEN, "");
-        prefUtil.putString(Constant.Token.TOKEN_TYPE, "");
-        prefUtil.putInt(Constant.Token.EXPIRES_IN, -1);
-        prefUtil.putString(Constant.Token.REFRESH_TOKEN, "");
-        prefUtil.putInt(Constant.Token.CREATED_AT, -1);
         Constant.VALUE_TOKEN = "";
     }
 

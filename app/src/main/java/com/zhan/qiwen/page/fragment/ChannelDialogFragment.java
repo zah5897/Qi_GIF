@@ -72,26 +72,15 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
         processLogic();
     }
 
-    public static ChannelDialogFragment newInstance(List<Channel> selectedDatas, List<Channel> unselectedDatas) {
+    public static ChannelDialogFragment newInstance() {
         ChannelDialogFragment dialogFragment = new ChannelDialogFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(Constant.DATA_SELECTED, (Serializable) selectedDatas);
-        bundle.putSerializable(Constant.DATA_UNSELECTED, (Serializable) unselectedDatas);
-        dialogFragment.setArguments(bundle);
         return dialogFragment;
     }
 
-    private void setDataType(List<Channel> datas, int type) {
-        for (int i = 0; i < datas.size(); i++) {
-            datas.get(i).setItemType(type);
-        }
-    }
-
-
     private void processLogic() {
-        mDatas.add(new Channel(Channel.TYPE_MY_CHANNEL_TAG, "我的频道",-1));
+        mDatas.add(new Channel(Channel.TYPE_MY_CHANNEL_TAG, "我的频道", -1));
         mDatas.addAll(ChannelManager.get().getMyChannels());
-        mDatas.add(new Channel(Channel.TYPE_OTHER_CHANNEL_TAG, "频道推荐",-1));
+        mDatas.add(new Channel(Channel.TYPE_OTHER_CHANNEL_TAG, "频道推荐", -1));
         mDatas.addAll(ChannelManager.get().getUnSelected());
 
 
@@ -127,15 +116,10 @@ public class ChannelDialogFragment extends DialogFragment implements OnChannelDr
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-
         ChannelManager.get().getMyChannels().clear();
-        ChannelManager.get().getUnSelected().clear();
-
         for (Channel channel : mDatas) {
             if (channel.getItemType() == Channel.TYPE_MY_CHANNEL) {
                 ChannelManager.get().getMyChannels().add(channel);
-            } else if (channel.getItemType() == Channel.TYPE_OTHER_CHANNEL) {
-                ChannelManager.get().getUnSelected().add(channel);
             }
         }
         ChannelManager.get().parcelable(getContext());

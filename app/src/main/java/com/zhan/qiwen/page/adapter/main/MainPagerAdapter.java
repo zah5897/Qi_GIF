@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.zhan.qiwen.model.channel.ChannelManager;
 import com.zhan.qiwen.model.channel.entity.Channel;
+import com.zhan.qiwen.page.fragment.SimpleGridRefreshFragment;
 import com.zhan.qiwen.page.fragment.SimpleListFragment;
 import com.zhan.qiwen.page.fragment.SimpleListRefreshFragment;
 
@@ -22,7 +23,12 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Channel channel = ChannelManager.get().getMyChannels().get(position);
-        return SimpleListRefreshFragment.newInstance(channel);
+        if (channel.type == 6) {
+            return SimpleGridRefreshFragment.newInstance(channel);
+        } else {
+            return SimpleListRefreshFragment.newInstance(channel);
+        }
+
     }
 
     @Override

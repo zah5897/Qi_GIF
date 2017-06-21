@@ -2,14 +2,6 @@ package com.zhan.qiwen.model.channel.data;
 
 
 import com.zhan.qiwen.model.channel.entity.Channel;
-import com.zhan.qiwen.model.topic.entity.FavoriteTopic;
-import com.zhan.qiwen.model.topic.entity.FollowTopic;
-import com.zhan.qiwen.model.topic.entity.Like;
-import com.zhan.qiwen.model.topic.entity.Topic;
-import com.zhan.qiwen.model.topic.entity.TopicDetail;
-import com.zhan.qiwen.model.topic.entity.TopicReply;
-import com.zhan.qiwen.model.topic.entity.UnFavoriteTopic;
-import com.zhan.qiwen.model.topic.entity.UnFollowTopic;
 
 import java.util.List;
 

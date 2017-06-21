@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.model.channel.entity.Channel;
 import com.zhan.qiwen.page.listener.OnChannelDragListener;
+import com.zhan.qiwen.utils.ZLog;
 
 import java.util.List;
 

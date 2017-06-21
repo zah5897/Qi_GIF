@@ -44,7 +44,7 @@ public class ChannelManager {
     public static ChannelManager get(Context context) {
         if (manager == null) {
             manager = new ChannelManager(context);
-             manager.initDefaultChannel(null);
+            manager.initDefaultChannel(null);
         }
         return manager;
     }
@@ -57,7 +57,7 @@ public class ChannelManager {
             @Override
             public void onResponse(Call<List<Channel>> call,
                                    Response<List<Channel>> response) {
-                String threadNames=Thread.currentThread().getName();
+                String threadNames = Thread.currentThread().getName();
                 List<Channel> topicList = null;
                 if (response.isSuccessful()) {
                     topicList = response.body();
@@ -70,8 +70,8 @@ public class ChannelManager {
                 initDefaultChannel(null);
             }
         });
-        int i=0;
-        System.out.print("i="+i);
+        int i = 0;
+        System.out.print("i=" + i);
     }
 
     public static ChannelManager get() {
@@ -95,6 +95,7 @@ public class ChannelManager {
         List<Channel> unSelected = new ArrayList<>();
         for (Channel channel : allChannels) {
             if (!myChannels.contains(channel)) {
+                channel.setItemType(Channel.TYPE_OTHER_CHANNEL);
                 unSelected.add(channel);
             }
         }
@@ -106,19 +107,19 @@ public class ChannelManager {
     }
 
     private void initDefaultChannel(List<Channel> channels) {
-        if(channels==null){
+        if (channels == null) {
             String defaults[] = {"奇闻趣事", "社会奇闻", "历史趣事", "神仙奇谈", "未解之谜", "奇图说事", "娱乐八卦", "军事天地"};
             for (int i = 0; i < defaults.length; i++) {
                 allChannels.add(new Channel(Channel.TYPE_OTHER_CHANNEL, defaults[i], i + 1));
             }
-        }else{
-            allChannels=channels;
+        } else {
+            allChannels = channels;
         }
         if (myChannels.size() == 0) {
-            int limit=allChannels.size()>=5?5:allChannels.size();
+            int limit = allChannels.size() >= 5 ? 5 : allChannels.size();
             for (int i = 0; i < limit; i++) {
-                Channel temp=allChannels.get(i);
-                myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, temp.title,temp.type));
+                Channel temp = allChannels.get(i);
+                myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, temp.title, temp.type));
             }
         }
     }

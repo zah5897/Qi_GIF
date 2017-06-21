@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/title_bar_inner_height"
     android:background="@color/white">
@@ -10,7 +11,7 @@
         android:layout_height="@dimen/title_bar_inner_height"
         android:background="@drawable/view_default_selecotr"
         android:padding="5dp"
-        android:src="@mipmap/leftbackicon_titlebar" />
+        app:srcCompat="@drawable/ic_back" />
 
     <TextView
         android:id="@+id/title"

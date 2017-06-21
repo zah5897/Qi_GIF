@@ -1,54 +1,47 @@
 package com.zhan.qiwen.page;
 
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.umeng.analytics.MobclickAgent;
 import com.zhan.qiwen.R;
 import com.zhan.qiwen.base.BaseActivity;
 import com.zhan.qiwen.model.channel.ChannelManager;
 import com.zhan.qiwen.model.channel.entity.Channel;
-import com.zhan.qiwen.model.user.entity.Token;
-import com.zhan.qiwen.model.user.entity.UserDetailInfo;
+import com.zhan.qiwen.model.user.entity.UserInfo;
 import com.zhan.qiwen.model.user.presenter.UserPresenter;
-import com.zhan.qiwen.model.user.view.UserView;
+import com.zhan.qiwen.model.user.view.FastRegistView;
 import com.zhan.qiwen.page.adapter.main.MainPagerAdapter;
 import com.zhan.qiwen.page.fragment.ChannelDialogFragment;
 import com.zhan.qiwen.page.widget.ColorTrackTabLayout;
 import com.zhan.qiwen.utils.PrefUtil;
-import com.zhan.qiwen.utils.ToolBarUtil;
 import com.zhan.qiwen.utils.ZLog;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, UserView {
+        implements NavigationView.OnNavigationItemSelectedListener, FastRegistView {
 
     PagerAdapter pagerAdapter;
     ViewPager viewPager;
     ColorTrackTabLayout tabLayout;
     DrawerLayout drawer;
     private UserPresenter userPresenter;
-    private UserDetailInfo me;
+    private UserInfo me;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,29 +74,40 @@ public class MainActivity extends BaseActivity
 
     private void loadToken() {
         userPresenter = new UserPresenter(this);
-        Token token = PrefUtil.getToken(this);
-        if (!TextUtils.isEmpty(token.getAccessToken())) {
+        String token = PrefUtil.getToken(this);
+        if (!TextUtils.isEmpty(token)) {
             me = PrefUtil.getMe(this);
-            if (!TextUtils.isEmpty(me.getLogin())
-                    && !TextUtils.isEmpty(me.getAvatarUrl())
-                    && !TextUtils.isEmpty(me.getEmail())) {
-                showMe(me);
-            } else {
-                ZLog.e("user is null");
-                userPresenter.getMe();
-            }
+        }
+
+        if (me == null || me.getId() <= 0) {
+            userPresenter.fastRegist();
         } else {
-            ZLog.e("token is null");
+            showMe(me);
         }
     }
 
+    private void showMe(UserInfo userInfo) {
+//        Glide.with(this)
+//                .load(userDetailInfo.getAvatarUrl())
+//                .crossFade()
+//                .bitmapTransform(new CropCircleTransformation(this))
+//                .error(R.mipmap.ic_launcher)
+//                .into(avatar);
+    }
+    long lastBcck;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(System.currentTimeMillis()-lastBcck<2000){
+                super.onBackPressed();
+            }else{
+                showToast(getString(R.string.exit_tip));
+                lastBcck=System.currentTimeMillis();
+            }
+
         }
     }
 
@@ -129,7 +133,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void channelManager(final View v) {
-        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance(new ArrayList<Channel>(), new ArrayList<Channel>());
+        ChannelDialogFragment dialogFragment = ChannelDialogFragment.newInstance();
         dialogFragment.show(getSupportFragmentManager(), "CHANNEL");
         dialogFragment.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
@@ -147,12 +151,7 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    public void getMe(UserDetailInfo userDetailInfo) {
-
-    }
-
-    @Override
-    public void getUser(UserDetailInfo userDetailInfo) {
-
+    public void fastRegist(UserInfo info) {
+        showMe(info);
     }
 }
