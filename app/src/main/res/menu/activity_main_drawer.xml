@@ -8,7 +8,7 @@
             android:icon="@drawable/ic_mail"
             android:title="消息中心" />
         <item
-            android:id="@+id/my_store"
+            android:id="@+id/my_collect"
             android:icon="@drawable/ic_collect"
             android:title="我的收藏" />
 

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_bar_inner_height"
+    android:background="@color/colorAccent"
+    tools:context="com.zhan.gallery.ui.MainActivity">
+
+    <ImageView
+        android:id="@+id/title_bar_left_btn"
+        android:layout_width="45dp"
+        android:layout_height="@dimen/title_bar_inner_height"
+        android:background="@drawable/view_default_selecotr"
+        android:padding="5dp"
+        app:srcCompat="@drawable/ic_back" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_inner_height"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="@dimen/title_bar_txt_margin_left"
+        android:gravity="center_vertical"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size" />
+
+</RelativeLayout>

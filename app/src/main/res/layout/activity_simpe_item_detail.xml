@@ -18,7 +18,7 @@
         android:layout_below="@+id/top_bar"
         android:background="@color/divider"></View>
 
-    <com.zhan.qiwen.page.widget.EmptyRecyclerView
+    <com.zhan.gallery.ui.widget.EmptyRecyclerView
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,14 +26,14 @@
         android:layout_below="@+id/break_line"
         android:background="@color/white"
         android:overScrollMode="never"
-        android:paddingLeft="@dimen/dp_20"
-        android:paddingRight="@dimen/dp_20" />
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15" />
 
-    <com.zhan.qiwen.page.widget.EmptyView
+    <com.zhan.gallery.ui.widget.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_bar" />
 
-    <include layout="@layout/comment_tool_bar"  />
+    <include layout="@layout/comment_tool_bar" />
 </RelativeLayout>

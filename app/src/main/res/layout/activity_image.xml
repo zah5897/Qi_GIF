@@ -7,7 +7,7 @@
     android:background="@color/windowBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.zhan.qiwen.page.ImageActivity"
+    tools:context="com.zhan.gallery.ui.ImageActivity"
     >
     <FrameLayout
         android:layout_width="match_parent"

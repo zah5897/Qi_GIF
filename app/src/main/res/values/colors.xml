@@ -4,6 +4,7 @@
     <color name="red">#FF0000</color>
     <color name="default_font_color">#62646c</color>
     <color name="transparent">#00000000</color>
+    <color name="half_transparent">#66000000</color>
     <color name="divider">#ffe8e8e8</color>
     <color name="white">#ffffffff</color>
     <color name="black">#FF000000</color>
@@ -24,9 +25,14 @@
     <color name="colorSubTitle">#999999</color>
 
 
+    <color name="black_68">#686A68</color>
+    <color name="black_64">#888A84</color>
+
     <color name="action_comment_text">#fffafafa</color>
     <color name="comment_toolbar_bg">#fff4f5f6</color>
 
+
+    <color name="reply_item_user_name">#DD014C8F</color>
 
 
 </resources>

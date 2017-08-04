@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.zhan.qiwen.page.MainActivity">
+    tools:context="com.zhan.gallery.ui.MainActivity">
 
     <ImageView
         android:id="@+id/icon_collapse"

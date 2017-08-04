@@ -4,30 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zhan.qiwen.page.MainActivity">
+    tools:context="com.zhan.gallery.ui.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/title_bar_inner_height"
-        android:background="@color/colorAccent">
-
-        <ImageView
-            android:id="@+id/title_bar_left_btn"
-            android:layout_width="45dp"
-            android:src="@mipmap/ic_menu_home" android:padding="5dp"
-            android:background="@drawable/view_default_selecotr"
-            android:layout_height="@dimen/title_bar_inner_height" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical" android:gravity="center_vertical"
-            android:layout_height="@dimen/title_bar_inner_height"
-            android:layout_marginLeft="@dimen/title_bar_txt_margin_left"
-            android:text="@string/app_name" android:textSize="@dimen/title_size"
-            android:textColor="@color/white" />
-    </LinearLayout>
+    <include layout="@layout/sink_title_bar"></include>
 
     <LinearLayout
         android:id="@+id/tab_bar"
@@ -37,7 +16,7 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.zhan.qiwen.page.widget.ColorTrackTabLayout
+        <com.zhan.gallery.ui.widget.ColorTrackTabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,9 +36,14 @@
             android:onClick="channelManager"
             android:src="@drawable/ic_category_expand" />
     </LinearLayout>
-    <View android:id="@+id/break_line"
-        android:layout_width="match_parent"  android:layout_below="@+id/tab_bar"
-        android:layout_height="0.5dp" android:background="@color/divider"></View>
+
+    <View
+        android:id="@+id/break_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/tab_bar"
+        android:background="@color/divider"></View>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

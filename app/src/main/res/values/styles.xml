@@ -47,5 +47,14 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="BreakLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_.5</item>
+        <item name="android:background">@color/divider</item>
+    </style>
 
+
+    <style name="Padding_10">
+        <item name="android:padding">@dimen/dp_10</item>
+    </style>
 </resources>

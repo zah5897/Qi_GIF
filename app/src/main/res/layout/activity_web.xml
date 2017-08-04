@@ -6,7 +6,7 @@
     android:background="@color/windowBackground"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:context="com.zhan.qiwen.page.WebActivity">
+    tools:context="com.zhan.gallery.ui.WebActivity">
 
     <ProgressBar
         android:id="@+id/progress_bar"

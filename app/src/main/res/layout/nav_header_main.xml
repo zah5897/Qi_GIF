@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="bottom"   android:background="@drawable/side_nav_bar"
+    android:background="@drawable/side_nav_bar"
+    android:gravity="bottom"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/nav_header_vertical_spacing"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingRight="@dimen/dp_10"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -14,6 +18,7 @@
         android:src="@mipmap/ic_launcher" />
 
     <TextView
+        android:id="@+id/nick_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
