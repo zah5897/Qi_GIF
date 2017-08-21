@@ -39,7 +39,8 @@ public class SettingsFragment extends PreferenceFragment {
         context.startActivity(i);
     }
 
-    @Override public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
@@ -63,7 +64,7 @@ public class SettingsFragment extends PreferenceFragment {
 
     private void addCheckUpdate() {
         Preference myPref =
-            findPreference(getResources().getString(R.string.pref_key_check_update));
+                findPreference(getResources().getString(R.string.pref_key_check_update));
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 SettingsFragmentPermissionsDispatcher.checkUpdateWithCheck(SettingsFragment.this);
@@ -83,9 +84,10 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @NeedsPermission({
-        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.RECORD_AUDIO
-    }) void checkUpdate() {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+    })
+    void checkUpdate() {
         //PgyUpdateManager.register(getActivity(), getString(R.string.file_provider));
 //        PgyUpdateManager.register(getActivity(), getString(R.string.file_provider),
 //            new UpdateManagerListener() {
@@ -111,57 +113,65 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     @NeedsPermission({
-        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.RECORD_AUDIO
-    }) void feedback() {
-       // PgyFeedback.getInstance().showDialog(getActivity());
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+    })
+    void feedback() {
+        // PgyFeedback.getInstance().showDialog(getActivity());
     }
 
     @OnShowRationale({
-        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.RECORD_AUDIO
-    }) void showRationaleForWriteExternalStorage(final PermissionRequest request) {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+    })
+    void showRationaleForWriteExternalStorage(final PermissionRequest request) {
         new AlertDialog.Builder(getActivity()).setMessage("需要使用存储空间/电话/麦克风权限")
-            .setPositiveButton("允许", new DialogInterface.OnClickListener() {
-                @Override public void onClick(DialogInterface dialog, int which) {
-                    request.proceed();
-                }
-            })
-            .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
-                @Override public void onClick(DialogInterface dialog, int which) {
-                    request.cancel();
-                }
-            })
-            .show();
+                .setPositiveButton("允许", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                })
+                .show();
     }
 
     @OnPermissionDenied({
-        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.RECORD_AUDIO
-    }) void showDeniedForWriteExteralStorage() {
-        ToastUtil.showText(getActivity(), "您已经拒绝了使用存储空间/电话/麦克风权限中的一项或全部");
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+    })
+    void showDeniedForWriteExteralStorage() {
+        ToastUtil.showText("您已经拒绝了使用存储空间/电话/麦克风权限中的一项或全部");
     }
 
     @OnNeverAskAgain({
-        Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.RECORD_AUDIO
-    }) void showNeverAskForWriteExteralStorage() {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO
+    })
+    void showNeverAskForWriteExteralStorage() {
         new AlertDialog.Builder(getActivity()).setPositiveButton("好的",
-            new DialogInterface.OnClickListener() {
-                @Override public void onClick(DialogInterface dialog, int which) {
-                    startInstalledAppDetailsActivity(getActivity());
-                }
-            })
-            .setNegativeButton("取消", null)
-            .setCancelable(false)
-            .setMessage("您已经禁止了存储空间/电话/麦克风权限中的一项或全部,是否现在去开启")
-            .show();
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startInstalledAppDetailsActivity(getActivity());
+                    }
+                })
+                .setNegativeButton("取消", null)
+                .setCancelable(false)
+                .setMessage("您已经禁止了存储空间/电话/麦克风权限中的一项或全部,是否现在去开启")
+                .show();
     }
 
-    @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-        @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
         SettingsFragmentPermissionsDispatcher.onRequestPermissionsResult(this, requestCode,
-            grantResults);
+                grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

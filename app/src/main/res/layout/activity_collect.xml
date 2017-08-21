@@ -5,17 +5,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <include
-        android:id="@+id/top_bar"
-        layout="@layout/left_right_2_btn_white_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <View
         android:id="@+id/break_line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/top_bar"
         android:background="@color/divider"></View>
 
     <com.zhan.gallery.ui.widget.EmptyRecyclerView

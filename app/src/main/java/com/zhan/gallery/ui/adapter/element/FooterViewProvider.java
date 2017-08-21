@@ -16,57 +16,33 @@ import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewProvider;
 
 public class FooterViewProvider extends ItemViewProvider<Footer, FooterViewProvider.ViewHolder> {
-    ViewHolder viewHolder;
-    private int status = Footer.STATUS_NORMAL;
 
     @NonNull
     @Override
     protected ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater,
                                             @NonNull ViewGroup parent) {
         View root = inflater.inflate(R.layout.item_load_more, parent, false);
-        viewHolder = new ViewHolder(root);
-        return viewHolder;
+        return new ViewHolder(root);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull Footer footer) {
-        refreshStatus(viewHolder, status);
-
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+    protected void onBindViewHolder(@NonNull ViewHolder holder, @NonNull final Footer footer) {
+        refreshStatus(holder, footer.status);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (status == Footer.STATUS_ERR) {
+                if (footer.status == Footer.STATUS_ERR) {
                     toRefresh();
                 }
             }
         });
-        if (status == Footer.STATUS_NORMAL) {
+        if (footer.status == Footer.STATUS_NORMAL) {
             toRefresh();
         }
     }
 
     private void toRefresh() {
         needLoadMore();
-        status = Footer.STATUS_LOADING;
-    }
-
-    public boolean isLoadMore() {
-        return status == Footer.STATUS_LOADING;
-    }
-
-    public void refreshFooterStatus(int footerStatus) {
-        this.status = footerStatus;
-        if (viewHolder != null) {
-            refreshStatus(viewHolder, status);
-        }
-    }
-
-    public boolean canRefresh() {
-        return status == Footer.STATUS_NORMAL || status == Footer.STATUS_NO_MORE;
-    }
-
-    public boolean canLoadMore() {
-        return status == Footer.STATUS_NORMAL;
     }
 
     private void refreshStatus(ViewHolder viewHolder, int status) {

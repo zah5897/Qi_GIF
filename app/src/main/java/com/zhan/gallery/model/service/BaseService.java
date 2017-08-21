@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
  */
 
 public class BaseService {
-    public static String URL_ROOT_PREFIX = "http://117.143.221.190:8899";
+    public static String URL_ROOT_PREFIX = "http://117.143.221.190:8899/heihei_img";
 //    public static String URL_ROOT_PREFIX = "http://117.143.221.190:8899";
 
     private ExecutorService cachedThreadPool;

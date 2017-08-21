@@ -22,9 +22,25 @@
         android:layout_height="@dimen/title_bar_inner_height"
         android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/title_bar_txt_margin_left"
+        android:layout_toLeftOf="@+id/right_btn"
+        android:layout_toRightOf="@+id/title_bar_left_btn"
+        android:ellipsize="end"
         android:gravity="center_vertical"
+        android:lines="1"
         android:text="@string/app_name"
         android:textColor="@color/white"
         android:textSize="@dimen/title_size" />
 
+    <TextView
+        android:id="@+id/right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/title_bar_inner_height"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_size"
+        android:visibility="gone" />
 </RelativeLayout>

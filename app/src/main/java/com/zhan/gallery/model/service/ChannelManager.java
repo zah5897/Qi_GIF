@@ -8,6 +8,7 @@ import com.zhan.gallery.model.Channel;
 import com.zhan.gallery.utils.GsonUtil;
 import com.zhan.gallery.utils.PrefUtil;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -23,15 +24,12 @@ public class ChannelManager {
     private static ChannelManager manager;
     private List<Channel> allChannels;
     private List<Channel> myChannels;
-    private Gson mGson;
 
     private ChannelManager() {
         allChannels = new ArrayList<>();
         myChannels = new ArrayList<>();
-        mGson = new Gson();
         String myChannelStr = PrefUtil.get().getString(PER_KEY_MY_CHANNEL, "");
-        List<Channel> cacheData = mGson.fromJson(myChannelStr, new TypeToken<List<Channel>>() {
-        }.getType());
+        List<Channel> cacheData = GsonUtil.toChannels(myChannelStr);
         if (cacheData != null) {
             myChannels.addAll(cacheData);
         }
@@ -63,11 +61,6 @@ public class ChannelManager {
         });
     }
 
-
-    public Gson getGson() {
-        return mGson;
-    }
-
     public List<Channel> getAllChannels() {
         return allChannels;
     }
@@ -89,15 +82,14 @@ public class ChannelManager {
     }
 
     public void parcelable(Context context) {
-        PrefUtil.get().putString(PER_KEY_MY_CHANNEL, mGson.toJson(getMyChannels()));
+        PrefUtil.get().putString(PER_KEY_MY_CHANNEL, GsonUtil.toJsonStr(getMyChannels()));
     }
 
     private void initDefaultChannel(List<Channel> channels) {
         if (channels == null) {
-            String defaults[] = {"首页", "搞笑图集", "搞笑GIF", "吐槽囧图", "美女图片", "搞笑段子", "娱乐八卦"};
-            for (int i = 0; i < defaults.length; i++) {
-                Channel channel = new Channel(Channel.TYPE_OTHER_CHANNEL, defaults[i], i);
-                if (i == 0) {
+            for (ChannelType channelType : ChannelType.values()) {
+                Channel channel = new Channel(Channel.TYPE_OTHER_CHANNEL, channelType.getTitle(), channelType.ordinal());
+                if (channel.type == 0) {
                     channel.isDefault = true;
                 }
                 allChannels.add(channel);
@@ -106,12 +98,39 @@ public class ChannelManager {
             allChannels = channels;
         }
         if (myChannels.size() == 0) {
-            int limit = allChannels.size() >= 5 ? 5 : allChannels.size();
-            for (int i = 0; i < limit; i++) {
-                Channel temp = allChannels.get(i);
-                myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, temp.title, temp.type));
+            for (ChannelType channelType : ChannelType.values()) {
+                myChannels.add(new Channel(Channel.TYPE_MY_CHANNEL, channelType.getTitle(), channelType.ordinal()));
             }
             myChannels.get(0).isDefault = true;
         }
+        EventBus.getDefault().post(myChannels.get(0));
     }
+
+    enum ChannelType {
+        HOT(0, "热门"),
+        FUNNY(1, "搞笑"),
+        JUNTU(2, "囧图"),
+        GIF(3, "GIF"),
+        NEIHAN(4, "内涵"),
+        VIDEO(5, "视频"),
+        TUCAO(6, "吐槽"),
+        GIRL(7, "美女");
+
+        private String _title;
+        private int _value;
+
+        private ChannelType(int value, String title) {
+            _value = value;
+            _title = title;
+        }
+
+        public String getTitle() {
+            return _title;
+        }
+
+        public int getValue() {
+            return _value;
+        }
+    }
+
 }

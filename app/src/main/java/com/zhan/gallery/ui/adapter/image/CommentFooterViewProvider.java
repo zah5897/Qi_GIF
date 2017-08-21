@@ -1,4 +1,4 @@
-package com.zhan.gallery.ui.adapter.gallery;
+package com.zhan.gallery.ui.adapter.image;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +42,10 @@ public class CommentFooterViewProvider extends ItemViewProvider<Footer, CommentF
         if (status == Footer.STATUS_NORMAL) {
             toRefresh();
         }
+    }
+
+    public int getStatus() {
+        return status;
     }
 
     private void toRefresh() {

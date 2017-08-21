@@ -2,10 +2,9 @@ package com.zhan.gallery.model.service;
 
 import android.content.Context;
 
-import com.google.gson.reflect.TypeToken;
 import com.zhan.gallery.app.Application;
-import com.zhan.gallery.model.Gallery;
-import com.zhan.gallery.model.event.GalleriesEvent;
+import com.zhan.gallery.model.ImageModel;
+import com.zhan.gallery.model.event.ImagesEvent;
 import com.zhan.gallery.utils.DBHelper;
 import com.zhan.gallery.utils.GsonUtil;
 import com.zhan.gallery.utils.http.RequestParam;
@@ -13,7 +12,6 @@ import com.zhan.gallery.utils.http.RequestParam;
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -36,27 +34,26 @@ public class AppService extends BaseService {
         return starService;
     }
 
-    public List<Gallery> tempGalleries;
 
-    public void requestGallery(final int type, final int cursor, int limit) {
+    public void requestImgs(final int channel, final int cursor, int limit) {
         RequestParam params = new RequestParam();
         params.put("pageIndex", cursor);
         params.put("limit", limit);
-        requestData(getFullURL("/list/" + type), params, new Callback() {
+        requestData(getFullURL("/data/list/" + channel), params, new Callback() {
             @Override
             public void onResult(Object object) {
                 JSONObject jsonObj = (JSONObject) object;
-                String array = jsonObj.optString("galleries");
+                String array = jsonObj.optString("data");
                 if (cursor == 0) {
-                    AppService.get().getDBHelper(Application.getApp()).cacheGallerys(type, array);
+                    AppService.get().getDBHelper(Application.getApp()).cacheGallerys(channel, array);
                 }
-                List<Gallery> retList = GsonUtil.toGalleries(array);
-                EventBus.getDefault().post(new GalleriesEvent(retList));
+                List<ImageModel> retList = GsonUtil.toImages(array);
+                EventBus.getDefault().post(new ImagesEvent(retList, channel));
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                EventBus.getDefault().post(new GalleriesEvent(null));
+                EventBus.getDefault().post(new ImagesEvent(null, channel));
             }
         });
     }

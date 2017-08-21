@@ -41,6 +41,7 @@ public class BaseFragment extends Fragment {
         super.onDestroyView();
         if (unbinder != null) {
             unbinder.unbind();
+            unbinder = null;
         }
     }
 

@@ -47,8 +47,6 @@ public class MyCollectActivity extends BaseActivity {
         setContentView(R.layout.activity_collect);
         ButterKnife.bind(this);
         title.setText(getString(R.string.my_collect));
-        findViewById(R.id.action_collect).setVisibility(View.GONE);
-        findViewById(R.id.action_share).setVisibility(View.GONE);
         items = new Items();
         adapter = new MultiTypeAdapter(items);
         adapter.register(Footer.class, footerViewProvider = new FooterViewProvider() {

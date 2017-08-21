@@ -9,10 +9,8 @@ import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
 import com.zhan.gallery.model.Channel;
 import com.zhan.gallery.model.Comment;
-import com.zhan.gallery.model.Gallery;
+import com.zhan.gallery.model.ImageModel;
 import com.zhan.gallery.model.User;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -54,14 +52,19 @@ public class GsonUtil {
         }.getType());
     }
 
-    public static List<Gallery> toGalleries(String json) {
+    public static List<ImageModel> toImages(String json) {
         Gson gson = new Gson();
-        return gson.fromJson(json, new TypeToken<List<Gallery>>() {
+        return gson.fromJson(json, new TypeToken<List<ImageModel>>() {
         }.getType());
     }
 
     public static User toUser(String json) {
         Gson gson = new Gson();
         return gson.fromJson(json, User.class);
+    }
+
+    public static String toJsonStr(List<?> list) {
+        Gson gson = new Gson();
+        return gson.toJson(list);
     }
 }

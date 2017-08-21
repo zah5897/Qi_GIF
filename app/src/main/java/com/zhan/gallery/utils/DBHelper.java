@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.zhan.gallery.model.Comment;
-import com.zhan.gallery.model.Gallery;
+import com.zhan.gallery.model.ImageModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,12 +99,12 @@ public class DBHelper extends SQLiteOpenHelper {
      *
      * @param channel
      */
-    public List<Gallery> loadCacheGallerys(int channel) {
+    public List<ImageModel> loadCacheData(int channel) {
         Cursor cursor = getReadableDatabase().rawQuery("select *from " + TABLE_GALLERY + " where   channel=?", new String[]{String.valueOf(channel)});
-        List<Gallery> galleries = new ArrayList<>();
+        List<ImageModel> galleries = null;
         if (cursor != null && cursor.moveToFirst()) {
             String jsonValue = cursor.getString(cursor.getColumnIndex("jsonValue"));
-            galleries = GsonUtil.toGalleries(jsonValue);
+            galleries = GsonUtil.toImages(jsonValue);
             cursor.close();
         }
         return galleries;

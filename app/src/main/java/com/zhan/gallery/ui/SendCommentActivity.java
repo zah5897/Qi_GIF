@@ -16,7 +16,6 @@ import com.zhan.gallery.model.service.Callback;
 import com.zhan.gallery.model.service.UserManager;
 import com.zhan.gallery.ui.base.BaseActivity;
 import com.zhan.gallery.ui.base.BaseSwipeBackActivity;
-import com.zhan.gallery.ui.fragments.WaterFallFragment;
 import com.zhan.gallery.ui.widget.HQMaterialProgressTip;
 import com.zhan.gallery.utils.GsonUtil;
 import com.zhan.gallery.utils.http.RequestParam;
@@ -46,7 +45,7 @@ public class SendCommentActivity extends BaseSwipeBackActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_comment);
         ButterKnife.bind(this);
-        channel = getIntent().getIntExtra(WaterFallFragment.CHANNEL, 0);
+//        channel = getIntent().getIntExtra(WaterFallFragment.CHANNEL, 0);
         gallery_id = getIntent().getStringExtra("gallery_id");
         barTitle.setText("评论");
     }
@@ -61,6 +60,12 @@ public class SendCommentActivity extends BaseSwipeBackActivity {
                 finish();
                 break;
             case R.id.send:
+
+                if (progressTip != null && progressTip.isShow()) {
+                    showToast("正在发送中，请稍后..");
+                    return;
+                }
+
                 String text = input.getText().toString().trim();
                 if (text.isEmpty()) {
                     showToast("你什么也没写...");
@@ -84,6 +89,7 @@ public class SendCommentActivity extends BaseSwipeBackActivity {
                                 Comment comment = GsonUtil.toComment(json);
                                 comment.user = UserManager.get().getLoginUser();
                                 progressTip.dismiss();
+                                progressTip = null;
                                 EventBus.getDefault().post(new CommentEvent(gallery_id, comment));
                                 finish();
                             }
@@ -96,6 +102,7 @@ public class SendCommentActivity extends BaseSwipeBackActivity {
                             @Override
                             public void run() {
                                 progressTip.dismiss();
+                                progressTip = null;
                                 showToast("发送失败");
                             }
                         });

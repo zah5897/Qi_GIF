@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorAccent">#D43D3D</color>
-    <color name="red">#FF0000</color>
+    <color name="colorAccent">#3A9AF4</color>
     <color name="default_font_color">#62646c</color>
     <color name="transparent">#00000000</color>
     <color name="half_transparent">#66000000</color>
@@ -34,5 +33,7 @@
 
     <color name="reply_item_user_name">#DD014C8F</color>
 
+
+    <color name="tabIndicatorColor">#ADBE107E</color>
 
 </resources>
