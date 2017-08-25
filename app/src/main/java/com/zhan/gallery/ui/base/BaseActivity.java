@@ -11,6 +11,10 @@ import android.widget.Toast;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+    protected int cursor = 0;
+    protected int limit = 20;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

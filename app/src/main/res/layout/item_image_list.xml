@@ -61,26 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:drawableLeft="@drawable/ic_prise_selector"
-                    android:drawablePadding="@dimen/dp_2"
-                    android:gravity="center"
-                    android:text="0" />
-            </RelativeLayout>
-
-
-            <View style="@style/BreakLine_V"></View>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/press"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableLeft="@drawable/ic_press_selector"
+                    android:drawableLeft="@mipmap/ic_prise_count_press"
                     android:drawablePadding="@dimen/dp_2"
                     android:gravity="center"
                     android:text="0" />
@@ -99,7 +80,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:drawableLeft="@drawable/ic_collect_selector"
+                    android:drawableLeft="@mipmap/ic_collect_count_press"
                     android:drawablePadding="@dimen/dp_2"
                     android:gravity="center"
                     android:text="0" />

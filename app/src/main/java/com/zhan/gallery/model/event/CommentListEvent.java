@@ -8,12 +8,12 @@ import java.util.List;
  * Created by zah on 2017/8/4.
  */
 
-public class CommentEvent {
+public class CommentListEvent {
     public String img_id;
-    public Comment comment;
+    public List<Comment> comments;
 
-    public CommentEvent(String img_id, Comment comment) {
+    public CommentListEvent(String img_id, List<Comment> comments) {
         this.img_id = img_id;
-        this.comment = comment;
+        this.comments = comments;
     }
 }

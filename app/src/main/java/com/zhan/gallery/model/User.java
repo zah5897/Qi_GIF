@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 
 public class User implements Parcelable {
-    public long id;
+    public String id;
     public String token;
     public String avatar;
     public String nickname;
@@ -22,7 +22,7 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.token);
         dest.writeString(this.avatar);
         dest.writeString(this.nickname);
@@ -34,7 +34,7 @@ public class User implements Parcelable {
     }
 
     protected User(Parcel in) {
-        this.id = in.readLong();
+        this.id = in.readString();
         this.token = in.readString();
         this.avatar = in.readString();
         this.nickname = in.readString();
@@ -42,7 +42,7 @@ public class User implements Parcelable {
         this.sex = in.readString();
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
         @Override
         public User createFromParcel(Parcel source) {
             return new User(source);

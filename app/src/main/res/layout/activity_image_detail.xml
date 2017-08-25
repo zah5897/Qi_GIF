@@ -8,6 +8,43 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_layout"
         android:layout_below="@+id/title_bar" />
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:padding="@dimen/dp_5">
+
+        <EditText
+            android:id="@+id/input"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/send"
+            android:background="@drawable/round_border_bg"
+            android:imeOptions="actionSend"
+            android:inputType="text"
+            android:lines="1"
+            android:paddingBottom="@dimen/dp_1"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_1"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/send"
+            style="@style/Padding_10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="@dimen/dp_5"
+            android:paddingTop="@dimen/dp_5"
+            android:text="@string/send"
+            android:textColor="@color/colorAccent" />
+    </RelativeLayout>
 </RelativeLayout>

@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
  */
 
 public class FileUtils {
-    public static final String ROOT_DIR = "Gallery";
+    public static final String ROOT_DIR = "qutu";
 
     public static File mkRootdirs() {
         File file = new File(Environment.getExternalStorageDirectory() + File.separator + PrefUtil.SHARED_PREFERENCES_NAME);

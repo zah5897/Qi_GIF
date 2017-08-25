@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.zhan.gallery.model.Channel;
 import com.zhan.gallery.model.service.ChannelManager;
 import com.zhan.gallery.ui.fragments.ListFragment;
+import com.zhan.gallery.ui.fragments.WaterFallFragment;
 
 
 /**
@@ -22,8 +23,8 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Channel channel = ChannelManager.get().getMyChannels().get(position);
-        if (channel.type == 6) {
-            return ListFragment.newInstance(channel);
+        if (channel.type == 3) {
+            return WaterFallFragment.newInstance(channel);
         } else {
             return ListFragment.newInstance(channel);
         }

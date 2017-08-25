@@ -19,10 +19,10 @@ public class DividerListItemDecoration extends RecyclerView.ItemDecoration {
     private int dividerHeight;
     private Paint dividerPaint;
 
-    public DividerListItemDecoration(Context context) {
+    public DividerListItemDecoration(Context context, int height) {
         dividerPaint = new Paint();
         dividerPaint.setColor(context.getResources().getColor(R.color.divider));
-        dividerHeight = context.getResources().getDimensionPixelSize(R.dimen.dp_5);
+        dividerHeight = height;
     }
 
 

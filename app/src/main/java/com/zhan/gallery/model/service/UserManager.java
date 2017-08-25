@@ -53,7 +53,7 @@ public class UserManager extends BaseService {
     }
 
     public void saveUser(User user) {
-        userMap.put(String.valueOf(user.id), user);
+        userMap.put(user.id, user);
     }
 
     public User getUser(long id) {

@@ -19,10 +19,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.drakeet.multitype.ItemViewBinder;
 
-public class ImgListViewProvider extends ItemViewBinder<ImageModel, ImgListViewProvider.ViewHolder> {
+public class ImgFullViewProvider extends ItemViewBinder<ImageModel, ImgFullViewProvider.ViewHolder> {
     private RequestOptions requestOptions;
 
-    public ImgListViewProvider() {
+    public ImgFullViewProvider() {
         requestOptions = new RequestOptions().placeholder(R.mipmap.image_load_bg);
     }
 

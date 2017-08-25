@@ -56,7 +56,7 @@ public class MyCollectActivity extends BaseActivity {
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.addItemDecoration(new DividerListItemDecoration(this));
+        mRecyclerView.addItemDecoration(new DividerListItemDecoration(this, 1));
         mRecyclerView.setEmptyView(emptyView);
         emptyView.setBtnListener(new View.OnClickListener() {
             @Override

@@ -22,13 +22,10 @@
         <activity
             android:name="com.zhan.gallery.ui.ImageDetailActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar.Swipe"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="com.zhan.gallery.ui.MyCollectActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar.Swipe" />
-        <activity
-            android:name="com.zhan.gallery.ui.SendCommentActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar.Swipe" />
         <activity

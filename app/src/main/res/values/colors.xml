@@ -35,5 +35,7 @@
 
 
     <color name="tabIndicatorColor">#ADBE107E</color>
+    <color name="collect_red">#FF0000</color>
+
 
 </resources>

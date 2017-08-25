@@ -74,6 +74,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.2.4'
     testCompile 'junit:junit:4.12'
 
+
+    compile 'com.wx.goodview:goodview:1.0.0'
     compile files('libs/open_sdk_r5793_lite.jar')
 }
 

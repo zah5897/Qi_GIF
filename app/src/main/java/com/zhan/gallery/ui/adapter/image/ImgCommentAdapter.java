@@ -23,28 +23,28 @@ import me.drakeet.multitype.ItemViewBinder;
  * Created by zah on 2017/7/31.
  */
 
-public class GalleryCommentAdapter extends ItemViewBinder<Comment, GalleryCommentAdapter.ViewHolder> {
+public class ImgCommentAdapter extends ItemViewBinder<Comment, ImgCommentAdapter.ViewHolder> {
 
     private RequestOptions options = new RequestOptions().placeholder(R.mipmap.default_avatar);
 
     @NonNull
     @Override
-    protected GalleryCommentAdapter.ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
+    protected ImgCommentAdapter.ViewHolder onCreateViewHolder(@NonNull LayoutInflater inflater, @NonNull ViewGroup parent) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.gallery_detail_item_comment, parent, false));
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull GalleryCommentAdapter.ViewHolder holder, @NonNull Comment item) {
-        if (!TextUtils.isEmpty(item.user.avatar)) {
-            if (item.user.avatar.startsWith("http")) {
-                Glide.with(holder.itemView.getContext()).load(item.user.avatar).apply(options).
+    protected void onBindViewHolder(@NonNull ImgCommentAdapter.ViewHolder holder, @NonNull Comment item) {
+        if (!TextUtils.isEmpty(item.author.avatar)) {
+            if (item.author.avatar.startsWith("http")) {
+                Glide.with(holder.itemView.getContext()).load(item.author.avatar).apply(options).
                         into(holder.avatar);
             } else {
-                Glide.with(holder.itemView.getContext()).load(AppService.get().getFullAvatarURL(item.user.avatar)).apply(options).
+                Glide.with(holder.itemView.getContext()).load(AppService.get().getFullAvatarURL(item.author.avatar)).apply(options).
                         into(holder.avatar);
             }
         }
-        holder.nick_name.setText(item.user.nickname);
+        holder.nick_name.setText(item.author.nickname);
         holder.content.setText(item.content);
         holder.create_time.setText(item.create_time.toLocaleString());
 

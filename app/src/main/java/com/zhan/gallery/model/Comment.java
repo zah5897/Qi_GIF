@@ -7,14 +7,11 @@ import java.util.Date;
  */
 
 public class Comment {
-
-    public long id;
+    public String id;
     public int channel;
-    public String gallery_id;
+    public String img_id;
     public String content;
-    public long uid;
     public Date create_time;
     public int prise_count;
-    public User user;
-
+    public User author;
 }
